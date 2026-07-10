@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="btn-close-sidebar" id="closeSidebar">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+        </div>
+
+        <a href="#" class="brand">
+            <div class="brand-logo">
+                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M6 2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 1 0 0-2h-2v-2h2a1 1 0 0 0 1-1V4a2 2 0 0 0-2-2h-8v16h5v2H7a1 1 0 1 1 0-2h1V2H6Z" clip-rule="evenodd"/>
+                </svg>
+            </div>
+            <h2>Biblioteca</h2>
+        </a>
+
+        <ul class="nav-list">
+            <li class="nav-item">
+                <a href="/inicio" class="nav-link">
+                    <svg id="icono" class="w-[34px] h-[34px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="34" height="34" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m4 12 8-8 8 8M6 10.5V19a1 1 0 0 0 1 1h3v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h3a1 1 0 0 0 1-1v-8.5"/>
+                    </svg>
+                    Inicio
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/listado" class="nav-link">
+                    <svg id="icono" class="w-[34px] h-[34px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M9 8h10M9 12h10M9 16h10M4.99 8H5m-.02 4h.01m0 4H5"/>
+                    </svg>
+                    Listado Completo
+                </a>
+            </li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <a onclick="cerrarSesion()" class="nav-link" style="margin-top: 1rem;">
+                <svg id="icono" class="w-[34px] h-[34px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12l4-4m-4 4 4 4"/>
+                </svg>
+                Salir
+            </a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <div>
+                <h1 style="font-size: 2rem; background-clip: unset; -webkit-background-clip: unset; -webkit-text-fill-color: initial; background: none;">Añadir un Libro Nuevo</h1>
+                <p style="color: #64748b; margin-top: 0.5rem;">Rellene el Formulario</p>
+            </div>
+        </header>
+
+        <div class="dashboard-grid2" style="display: flex; gap: 2rem; align-items: flex-start; max-width: 1200px; width: 100%;">
+            
+            <div class="stat-card" style="flex: 1; max-width: 600px;">
+                <div id="mensaje-error" style=" display: none;">
+                </div>
+                <div class="minimalist-form-container">
+                    <form action="/nuevoLibro" method="post" id="formulario">
+                        <h2 style="margin-bottom: 1rem; text-align: left; font-size: 1.7;">Información del Libro</h2>
+                    
+                        <div class="form-group">
+                            <label for="codigo" style="margin-bottom: 1rem; text-align: left; font-size: 1.1rem;">Codigo ISBN</label>
+                                <input type="number" id="address" name="codigo" required placeholder="Ej: 9788437604947">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="titulo" style="margin-bottom: 1rem; text-align: left; font-size: 1.1rem;">Nombre del Libro</label>
+                                <input type="text" id="address" name="titulo" required placeholder="Ej: Don Quijote de la Mancha">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="autor" style="margin-bottom: 1rem; text-align: left; font-size: 1.1rem;">Nombre del Autor</label>
+                            <input type="text" id="address" name="autor" required placeholder="Ej: Miguel de Cervantes">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="ano" style="margin-bottom: 1rem; text-align: left; font-size: 1.1rem;">Año de Publicación</label>
+                                <input type="number" id="first-name" name="ano" required placeholder="Ej: 1605">
+                            </div>
+                            <div class="form-group">
+                                <label for="obtencion" style="margin-bottom: 1rem; text-align: left; font-size: 1.1rem;">Forma de Obtención</label>
+                                <select id="country" name="obtencion" required>
+                                    <option>Comprado</option>
+                                    <option>Donado</option>
+                                    <option>Otro</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="autor" style="margin-bottom: 1rem; text-align: left; font-size: 1.1rem;">Portada del Libro</label>
+                            <input type="file" accept="image/*" id="inputPortada" name="portada">
+                        </div>
+
+                        <button type="submit" class="submit-btn">Añadir</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="stat-card" style="width: 320px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem;">
+                <h4 style="margin-bottom: 1.2rem; text-align: center; color: #64748b; font-size: 0.9rem; text-transform: uppercase;">Vista Previa</h4>
+                
+                <img id="vistaPrevia" src="" alt="Vista previa de la portada" style="display: none; width: 100%; max-height: 420px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 4px 10px rgba(0,0,0,0.08);">
+                
+                <div id="vistaPreviaPlaceholder" style="width: 100%; height: 350px; background-color: #f8fafc; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.9rem; color: #64748b; border-radius: 8px; border: 2px dashed #cbd5e1; gap: 0.8rem; text-align: center; padding: 1.5rem;">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: #94a3b8;">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                        <circle cx="8.5" cy="8.5" r="1.5" />
+                        <polyline points="21 15 16 10 5 21" />
+                    </svg>
+                    <span>Selecciona un archivo para ver la portada aquí</span>
+                </div>
+            </div>
+
+            
+        </div>
+
+
+    </main>
+
+    <script src="../js/ui.js"></script>
+    <script src="../js/formularios.js"></script>
+    <script src="../js/login.js"></script>
+</body>
+</html>

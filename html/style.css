@@ -1,0 +1,1087 @@
+/* -- Variables ------------------------------------------------- */
+        :root {
+            --primary: #0a58cd;         /* Brand Accent */
+            --bg: #ffffff;                  /* Sidebar Background */
+            --text: #0d0d0d;               /* Text Color */
+            --side-w: 200px;       /* Sidebar Width */
+            --radius: 10px;        /* Hover Rounding */
+            --page-bg: #f8fafc;                  /* Page Background */
+            --border: rgba(0,0,0,0.06);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Public Sans', sans-serif;
+            background-color: var(--page-bg);
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* -- Sidebar Implementation -------------------------------------- */
+        .sidebar {
+            width: var(--side-w);
+            height: 100vh;
+            background: var(--bg);
+            color: var(--text);
+            position: fixed;
+            top: 0;
+            left: 0;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 1rem;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        /* Brand */
+        .brand {
+            padding: 0 1rem;
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text);
+        }
+        .brand-logo {
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            flex-shrink: 0;
+        }
+        .brand h2 { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.5px; }
+
+        /* Nav List */
+        .nav-list {
+            list-style: none;
+            flex: 1;
+        }
+        .nav-item { 
+            margin-bottom: 0.5rem;
+         }
+        #icono {
+        width:28px;
+        height:28px
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.85rem 1rem;
+            text-decoration: none;
+            color: var(--text);
+            opacity: 0.7;
+            font-weight: 500;
+            font-size: 0.95rem;
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+        .nav-link:hover, .nav-link.active {
+            opacity: 1;
+            background: rgba(var(--primary-rgb, 0,0,0), 0.08);
+            color: var(--primary);
+        }
+        .nav-link svg { width: 20px; height: 20px; }
+
+        /* Sidebar Footer */
+        .sidebar-footer {
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            margin-top: 2rem;
+        }
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+        .user-profile:hover { background: rgba(0,0,0,0.03); }
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            object-fit: cover;
+        }
+        .user-info h5 { font-size: 0.85rem; font-weight: 700; color: var(--text); }
+        .user-info p { font-size: 0.75rem; color: var(--text); opacity: 0.5; }
+
+        /* -- Top Mobile Bar ---------------------------------------------- */
+        .mobile-header {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 64px;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            padding: 0 1.5rem;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 900;
+        }
+        .burger {
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        /* -- Main Content ------------------------------------------------ */
+        .main-content {
+            flex: 1;
+            margin-left: var(--side-w);
+            padding: 3rem;
+            transition: var(--transition);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .stat-card h4 { font-size: 0.85rem; color: #64748b; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-card p { font-size: 1.75rem; font-weight: 800; }
+                
+        .stat-card-2 {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            max-width: 600px;
+            
+            padding: 25px;
+            background: #fff;
+            width: 100vh;            
+        }
+        .dashboard-grid2 {
+            display: flex;
+            justify-content: left;  /* Centra horizontalmente */
+            margin-top: 2.5rem;
+            width: 100vh;
+        }
+
+        /* -- Responsive -------------------------------------------------- */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.active {
+                transform: translateX(0);
+                box-shadow: 20px 0 50px rgba(0,0,0,0.1);
+            }
+            .mobile-header { display: flex; }
+            .main-content { margin-left: 0; padding-top: 6rem; }
+        }
+
+        /* Close Button Mobile */
+        .btn-close-sidebar {
+            display: none;
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            cursor: pointer;
+            opacity: 0.5;
+        }
+        @media (max-width: 1024px) {
+            .btn-close-sidebar { display: block; }
+        }
+
+        .two-column-form-container {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 25px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    font-family: sans-serif;
+}
+.two-column-form-container h2 { text-align: center; margin-bottom: 25px; }
+
+/* -- Start layout styles -- */
+/* A container for a row that will hold columns */
+.form-row {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap if needed, though we handle stacking with media queries */
+    gap: 20px; /* The space between the columns */
+    margin-bottom: 20px;
+}
+.form-row .form-group {
+    flex: 1; /* Allows each form group to grow and take up equal space */
+    min-width: 200px; /* Prevents columns from getting too squished before stacking */
+    margin-bottom: 0;
+}
+/* This handles single, full-width rows */
+.form-group:not(.form-row .form-group) {
+    margin-bottom: 20px;
+}
+
+/* -- Responsive stacking for mobile -- */
+@media (max-width: 600px) {
+    .form-row {
+        flex-direction: column;
+        gap: 0; /* Remove gap when stacking */
+    }
+    .form-row .form-group {
+        margin-bottom: 20px; /* Add margin back for stacked view */
+    }
+}
+/* -- End layout styles -- */
+
+/* General styling for labels and inputs */
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background-color: #3498db;
+    color: white;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* -- Variables ------------------------------------------------- */
+        :root {
+            --header-bg: #ffffff;
+            --header-text: #0f172a;
+            --row-bg: #ffffff;
+            --text-color: #475569;
+            --border-color: #e2e8f0;
+            --focus-color: #2563eb;
+            --v-pad: 1rem;
+            --table-w: 1000px;
+        }
+
+        /*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }/*
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+            color: var(--text-color);
+            padding: 3rem 1.5rem;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .component-wrapper {
+            width: 100%;
+            max-width: var(--table-w);
+        }
+
+        /* Search Controls */
+        .search-bar {
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.85rem 1rem 0.85rem 2.8rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.2s;
+            font-family: inherit;
+            color: var(--text-color);
+        }
+
+        .search-input:focus {
+            border-color: var(--focus-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); /* Adjust based on focus color visually */
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            fill: #94a3b8;
+        }
+
+        /* Table Structure */
+        .table-container {
+            background: var(--row-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+        
+        .table-wrapper { overflow-x: auto; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background-color: var(--header-bg);
+            color: var(--header-text);
+            font-weight: 600;
+            padding: var(--v-pad) 1.0rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        td {
+            padding: var(--v-pad) 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-color);
+        }
+
+        tbody tr { transition: opacity 0.2s; }
+        tbody tr:last-child td { border-bottom: none; }
+
+        .email { color: #64748b; font-size: 0.9em; }
+        .empty-state {
+            display: none;
+            text-align: center;
+            padding: 3rem !important;
+            color: #64748b;
+        }
+
+                :root {
+            --cta-primary-bg: #007bff;
+            --cta-primary-text: #ffffff;
+            --cta-primary-bg-hover: #0056b3;
+            --cta-primary-focus-outline: #007bff;
+        }
+
+        .cta-container-1 {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            background-color: #f8f9fa; /* Example background */
+        }
+
+
+        .cta-container-2 {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            display: flex;
+            justify-content: right;
+            align-items: center;
+            padding: 0.5rem;
+            background-color: #f8f9fa; /* Example background */
+        }
+
+        .primary-cta-btn-1 {
+            display: inline-block;
+            font-size: 1.1rem; /* Responsive font size */
+            font-weight: 700;
+            color: var(--cta-primary-text);
+            background-color: var(--cta-primary-bg);
+            border: none;
+            border-radius: 8px;
+            padding: 1rem 2rem;
+            cursor: pointer;
+            text-decoration: none;
+            line-height: 1.5;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+        }
+
+        .primary-cta-btn-1:hover {
+            background-color: var(--cta-primary-bg-hover);
+            transform: translateY(-2px);
+        }
+
+        .primary-cta-btn-1:active {
+            transform: translateY(0);
+        }
+
+        .primary-cta-btn-1:focus-visible {
+            outline: 3px solid var(--cta-primary-focus-outline);
+            outline-offset: 3px;
+        }
+
+        /* For smaller screens */
+        @media (max-width: 600px) {
+            .primary-cta-btn-1 {
+                font-size: 1rem;
+                padding: 0.8rem 1.6rem;
+                width: 100%; /* Make button full-width on mobile for better tap targets */
+                text-align: center;
+            }
+        }
+
+        
+
+        :root {
+            --icon-btn-size: 44px; /* A good minimum size for touch targets */
+            --icon-btn-bg: transparent;
+            --icon-btn-bg-hover: #e9ecef;
+            --icon-btn-icon-color: #495057;
+            --icon-btn-icon-color-danger: #dc3545;
+            --icon-btn-focus-outline: #007bff;
+        }
+
+        .icon-btn-container-1 {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background-color: #f8f9fa;
+        }
+
+        .icon-btn-1 {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: var(--icon-btn-size);
+            height: var(--icon-btn-size);
+            
+            color: var(--icon-btn-icon-color);
+            background-color: var(--icon-btn-bg);
+            
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            text-decoration: none;
+            
+            transition: background-color 0.15s ease-in-out;
+        }
+
+        .icon-btn-1 svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        .icon-btn-1:hover {
+            background-color: var(--icon-btn-bg-hover);
+        }
+
+        /* --- Modifier for a 'danger' action --- */
+        .icon-btn-1.danger:hover {
+            color: var(--icon-btn-icon-color-danger);
+            background-color: rgba(220, 53, 69, 0.1);
+        }
+        
+        .icon-btn-1:focus-visible {
+            outline: 2px solid var(--icon-btn-focus-outline);
+            outline-offset: 2px;
+        }
+
+
+
+
+        :root {
+            --pill-bg: #1de9b6; /* A fresh, modern teal */
+            --pill-text-color: #004d40;
+            --pill-bg-hover: #00bfa5;
+            --pill-focus-outline: #1de9b6;
+        }
+
+        .pill-container-1 {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.5rem;
+            background-color: #f8f9fa;
+        }
+
+        .pill-btn-1 {
+            display: inline-block;
+            padding: 0.9rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 800;
+            line-height: 1.5;
+            text-align: center;
+            
+            color: var(--pill-text-color);
+            background-color: var(--pill-bg);
+            
+            border: none;
+            /* Use a large value to guarantee a pill shape regardless of button height */
+            border-radius: 999px; 
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(29, 233, 182, 0.2);
+
+            transition: all 0.2s ease-in-out;
+        }
+
+
+        .pill-btn-1:hover {
+            background-color: var(--pill-bg-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(29, 233, 182, 0.3);
+        }
+        
+        .pill-btn-1:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(29, 233, 182, 0.2);
+        }
+        
+        .pill-btn-1:focus-visible {
+            outline: 3px solid var(--pill-focus-outline);
+            outline-offset: 3px;
+        }
+
+
+        /* -- Button Implementation --------------------------------------- */
+        .btn-cart {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: var(--v-pad) var(--h-pad);
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-size: var(--font-size);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 14px color-mix(in srgb, var(--primary), transparent 80%);
+            outline: none;
+            overflow: hidden;
+            min-width: 200px;
+
+            
+            min-height: 50px;
+        }
+
+        .btn-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px color-mix(in srgb, var(--primary), transparent 70%);
+            filter: brightness(1.05);
+        }
+
+        .btn-cart:active {
+            transform: scale(0.98);
+        }
+
+        .icon-cart {
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .btn-cart:hover .icon-cart {
+            transform: scale(1.2) rotate(-10deg);
+        }
+
+        /* Success Animation (Simulated) */
+        .btn-cart[data-added="Yes"] {
+            background-color: #10b981; /* Green success */
+        }
+        
+        .btn-cart .added-text {
+            position: absolute;
+            transform: translateY(40px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cart[data-added="Yes"] .btn-text-content {
+            transform: translateY(-40px);
+            opacity: 0;
+        }
+
+        .btn-cart[data-added="Yes"] .added-text {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .btn-text-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+        }
+
+
+
+        .split-btn-container-1 {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem 2rem; /* Extra padding to see dropdown */
+            background-color: #f8f9fa;
+        }
+
+        .split-btn-1 {
+            position: relative;
+            display: inline-flex;
+        }
+        
+        .split-btn-1 button,
+        .split-btn-1 a {
+            font-size: 1rem;
+            font-weight: 600;
+            line-height: 1.5;
+            color: black;
+            background-color: transparent;
+            border: 1px solid var(--split-btn-border-color);
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.15s ease-in-out;
+        }
+
+
+        .split-btn-main {
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+        }
+
+        .split-btn-dropdown {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: var(--icon-btn-size);
+            height: var(--icon-btn-size);
+            
+            color: black;
+            background-color: white;
+            
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            text-decoration: none;
+
+            transition: white 0.15s ease-in-out;
+        }
+
+        .split-btn-dropdown svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        .split-btn-1 .icon-btn-2 {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: var(--icon-btn-size);
+            height: var(--icon-btn-size);
+            padding: 0;
+
+            color: var(--icon-btn-icon-color);
+            background-color: var(--icon-btn-bg);
+
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            text-decoration: none;
+
+            transition: background-color 0.15s ease-in-out;
+        }
+
+        .icon-btn-2 svg {
+            display: block;
+            width: 24px;
+            height: 24px;
+            fill: transparent;
+        }
+
+        .split-btn-1 .icon-btn-2:hover {
+            background-color: var(--icon-btn-bg-hover);
+        }
+
+        /* --- Modifier for a 'danger' action --- */
+        .split-btn-1 .icon-btn-2.danger:hover {
+            color: var(--icon-btn-icon-color-danger);
+            background-color: rgba(220, 53, 69, 0.1);
+        }
+        
+        .split-btn-1 .icon-btn-2:focus-visible {
+            outline: 2px solid var(--icon-btn-focus-outline);
+            outline-offset: 2px;
+        }
+        
+
+        .split-btn-1 .icon-btn-2 {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: var(--icon-btn-size);
+            height: var(--icon-btn-size);
+            padding: 0;
+
+            color: var(--icon-btn-icon-color);
+            background-color: var(--icon-btn-bg);
+
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            text-decoration: none;
+
+            transition: background-color 0.15s ease-in-out;
+        }
+
+        .icon-btn-3 svg {
+            display: block;
+            width: 24px;
+            height: 24px;
+            fill: transparent;
+        }
+
+        .split-btn-1 .icon-btn-3:hover {
+            background-color: var(--icon-btn-bg-hover);
+        }
+
+        /* --- Modifier for a 'danger' action --- */
+        .split-btn-1 .icon-btn-3.danger:hover {
+            color: var(--icon-btn-icon-color-danger);
+            background-color: rgba(220, 53, 69, 0.1);
+        }
+        
+        .split-btn-1 .icon-btn-3:focus-visible {
+            outline: 2px solid var(--icon-btn-focus-outline);
+            outline-offset: 2px;
+        }
+
+        .split-btn-dropdown svg {
+            display: block;
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+        
+        .split-btn-1:focus-within {
+             box-shadow: 0 0 0 3px var(--split-btn-focus-outline);
+             border-radius:8px;
+        }
+
+        /* Menu Styles */
+        .split-btn-menu {
+            position: absolute;
+            top: 100%;
+            right: 0%;
+            margin-top: 0.5rem;
+            list-style: none;
+            padding: 0.5rem 0;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: rgb(161, 161, 161);
+            min-width: 100%;
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(-10px);
+            visibility: hidden;
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s 0.2s;
+        }
+        
+        .split-btn-1.is-open .split-btn-menu {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+            transition-delay: 0s;
+        }
+        
+        .split-btn-menu li a {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: #333;
+            background: none;
+            border: none;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .split-btn-menu li a:hover {
+            background-color: var(--icon-btn-bg-hover);
+            color: #000;
+        }
+
+       /* -- Actions Cell & Buttons Styling -- */
+        .cell-actions {
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+
+        }
+        .actions-container {
+            display: flex;
+            justify-content: flex-start;
+            gap: 8px; /* Space between buttons */
+        }
+        .action-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            border-radius: 50%; /* Make them circular */
+            cursor: pointer;
+            transition: background-color 0.2s, box-shadow 0.2s;
+        }
+        .action-button:hover {
+            background-color: #f5f5f5;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .action-button svg {
+            width: 16px;
+            height: 16px;
+        }
+        /* Specific colors for edit/delete */
+        .btn-edit { color: #3498db; }
+        .btn-delete { color: #e74c3c; }
+        .btn-edit:hover { border-color: #3498db; }
+        .btn-delete:hover { border-color: #e74c3c; }
+
+        #lapiz{
+            background-color: transparent;
+        }
+
+
+        
+
+        .minimalist-form-container {
+    max-width: 500px;
+    margin: auto;
+    padding: 30px;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #fff;
+}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
+
+.minimalist-form h2 {
+    text-align: center;
+    font-weight: 500;
+    margin-bottom: 30px;
+}
+.form-group {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+/* For this style, we'll often put the label below the input or use floating labels. */
+/* For simplicity and accessibility, we'll keep them above for now. */
+.form-group label {
+    display: block;
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+/* -- The core input style -- */
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #ccc; /* Underline only */
+    background: transparent;
+    padding: 10px 0; /* Add padding to the bottom */
+    font-size: 1.1rem;
+    color: #333;
+    transition: border-color 0.2s;
+}
+.form-group textarea {
+    height: 80px;
+    resize: none;
+}
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-bottom: 2px solid #333; /* Thicker underline on focus */
+}
+/* -- End core style -- */
+
+.submit-btn {
+    display: block;
+    width: 100%;
+    margin-top: 30px;
+    padding: 15px;
+    border: 1px solid #0a58cd;
+    background: #0a58cd;
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+.submit-btn:hover {
+    background: #fff;
+    color: #063275;
+}
+
+.act-btn {
+    display: block;
+    width: 100%;
+    margin-top: 30px;
+    padding: 15px;
+    border: 1px solid #0a58cd;
+    background: #0a58cd;
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+.act-btn:hover {
+    background: #fff;
+    color: #063275;
+}
+
+.del-btn {
+    display: block;
+    width: 100%;
+    margin-top: 30px;
+    padding: 15px;
+    border: 1px solid #cd0a0a;
+    background: #cd0a0a;
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+.del-btn:hover {
+    background: #fff;
+    color: #750606;
+}
+
+#mensaje-error {
+    display: block;
+    width: 100%;
+    margin-top: 30px;
+    padding: 15px;
+    border: 1px solid #cd0a0a;
+    background: #cd0a0a;
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.input-icon {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateX(-50%);
+    color: #888;
+    pointer-events: none; /* Icon doesn't intercept clicks */
+}
+.input-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.form-group2 {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+/* For this style, we'll often put the label below the input or use floating labels. */
+/* For simplicity and accessibility, we'll keep them above for now. */
+.form-group2 label {
+    display: block;
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+/* -- The core input style -- */
+.form-group2 input,
+.form-group2 textarea {
+    
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #ccc; /* Underline only */
+    background: transparent;
+    padding: 10px 0; /* Add padding to the bottom */
+    font-size: 1.1rem;
+    color: #333;
+    transition: border-color 0.2s;
+    padding-left: 32px; 
+}
+.form-group2 textarea {
+    height: 80px;
+    resize: none;
+}
+.form-group2 input:focus,
+.form-group2 textarea:focus {
+    outline: none;
+    border-bottom: 2px solid #333; /* Thicker underline on focus */
+}
+
+.form-control-icon {
+    width: 100%;
+    padding: 12px;
+    /* Add padding on the left to make space for the icon */
+    padding-left: 100px; 
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+.form-control-icon:focus {
+    outline: none;
+    border-color: #3498db;
+}
+.form-control-icon:focus ~ .input-icon {
+    color: #3498db; /* Change icon color on focus */
+}
+
+
+
+.table-bordered {
+    width: 100%;
+    border-collapse: collapse; /* This is key for clean, single borders */
+    font-family: sans-serif;
+    font-size: 0.9rem;
+}
+
+.table-bordered thead {
+    /* A subtle background color for the header */
+    background-color: #f2f2f2; 
+}
+
+.table-bordered th,
+.table-bordered td {
+    /* The border around each cell */
+    border: 1px solid #dddddd; 
+    text-align: left;
+    padding: 8px; /* Standard padding */
+}

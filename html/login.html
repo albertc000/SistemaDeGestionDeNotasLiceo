@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca - Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard-grid2" style="display: flex; align-items: center; justify-content: center; width: 100%;">
+        <div class="stat-card">
+            <div class="minimalist-form-container">
+
+                <form class="minimalist-form" id="formLogin" action="#" method="post">
+                    <div class="brand-logo" style="justify-content: center; display: flex; text-align: center; width: 100%;">
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" >
+                            <path fill-rule="evenodd" d="M6 2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 1 0 0-2h-2v-2h2a1 1 0 0 0 1-1V4a2 2 0 0 0-2-2h-8v16h5v2H7a1 1 0 1 1 0-2h1V2H6Z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <br>
+                    <h1 style="font-size: 2rem; text-align: center; background-clip: unset; -webkit-background-clip: unset; -webkit-text-fill-color: initial; background: none;">Sistema de Gestión de una Biblioteca</h1>
+                    <h2 style="color: #64748b; margin-top: 0.5rem;">Inicio de Sesión</h2>
+                
+                    <div class="form-group2">
+                        <span class="input-icon">
+                            <!-- User Icon -->
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd" d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z" clip-rule="evenodd"/>
+                            </svg>
+                        </span>
+                        <label for="min-name">Usuario</label> 
+                        <input class="form-control-icon" type="text" name="usuario" required id="usuario">
+                    </div>
+                    
+                    <div class="form-group2">
+                        <span class="input-icon">
+                            <!-- Lock Icon -->
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd" d="M8 10V7a4 4 0 1 1 8 0v3h1a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h1Zm2-3a2 2 0 1 1 4 0v3h-4V7Zm2 6a1 1 0 0 1 1 1v3a1 1 0 1 1-2 0v-3a1 1 0 0 1 1-1Z" clip-rule="evenodd"/>
+                            </svg>
+                        </span>
+                        <label for="min-name">Contraseña</label> 
+                        <input class="form-control-icon" type="password" id="contrasena" name="name" required>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Entrar</button>
+                    <div id="mensaje-error" style=" display: none;">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../js/login.js"></script>
+</body>
+</html>
