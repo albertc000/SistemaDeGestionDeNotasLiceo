@@ -115,7 +115,6 @@ if (formEliminar){
     });
 }
 
-
 //renderizar portada en el formulario de registro antes de añadir
 const inputPortada = document.getElementById('inputPortada');
 const imgVistaPrevia = document.getElementById('vistaPrevia');
