@@ -869,6 +869,8 @@
         .btn-edit:hover { border-color: #3498db; }
         .btn-delete:hover { border-color: #e74c3c; }
 
+        .btn-pres { color: #eab308; }
+        .btn-pres:hover { border-color: #926505; }
         #lapiz{
             background-color: transparent;
         }
@@ -979,6 +981,42 @@
 .del-btn:hover {
     background: #fff;
     color: #750606;
+}
+
+.clo-btn {
+    display: block;
+    width: 100%;
+    margin-top: 30px;
+    padding: 15px;
+    border: 1px solid #727174;
+    background: #727174;
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+.clo-btn:hover {
+    background: #fff;
+    color: #232324;
+}
+
+.dev-btn {
+    display: block;
+    width: 100%;
+    margin-top: 30px;
+    padding: 15px;
+    border: 1px solid #eab308;
+    background: #eab308;
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+.dev-btn:hover {
+    background: #fff;
+    color: #926505;
 }
 
 #mensaje-error {

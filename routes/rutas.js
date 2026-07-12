@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
         cb(null, path.join(__dirname, '../uploads'));
     },
     filename: function (req, file, cb) {
-        //genera un nombre de archivo único con el prefijo "portada-" la fecha y la extensión original
+        //genera un nombre de archivo unico con el prefijo portada-, la fecha y la extensión original
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
         const ext = path.extname(file.originalname);
         cb(null, file.fieldname + '-' + uniqueSuffix + ext);
@@ -250,12 +250,44 @@ router.post('/busquedaLibro', verificarAutenticacion, (req, res) => {
     }
 });
 
+//prestar un libro
+router.post('/api/libros/prestarLibro', upload.none(), verificarAutenticacion, (req, res) => {
+    let BDLibros = new Biblioteca("biblioteca.json");
+    let {codigo, lector, fechaSalida, fechaDevolucion} = req.body;
+    
+    if (!lector || !fechaSalida || !fechaDevolucion) {
+        return res.status(400).json({ exito: false, mensaje: "Todos los campos del lector y fechas son obligatorios." });
+    }
+    try {
+        BDLibros.prestarLibro(Number(codigo), lector, fechaSalida, fechaDevolucion);
+        BDLibros.cerrarBD();
+        res.json({ exito: true, mensaje: "Préstamo registrado correctamente" });
+    } catch (error) {
+        res.status(400).json({ exito: false, mensaje: error.message });
+    }
+});
+
+//devolver libro
+router.post('/api/libros/devolverLibro', upload.none(), verificarAutenticacion, (req, res) => {
+    let BDLibros = new Biblioteca("biblioteca.json");
+    let codigo = req.body.codigo;
+
+    try {
+        BDLibros.devolverLibro(Number(codigo));
+        BDLibros.cerrarBD();
+        res.json({ exito: true, mensaje: "Libro devuelto con éxito." });
+    } catch (error) {
+        res.status(400).json({ exito: false, mensaje: error.message });
+    }
+});
+
+
 //listado
 router.get('/listado', upload.none(), verificarAutenticacion, (req, res) => {
     res.render('listado');
 });
 
-//ruta para las portadas usando res.sendFile
+//ruta middleware para las portadas con res.sendFile
 router.get('/portada/:nombre', verificarAutenticacion, (req, res) => {
     const nombre = req.params.nombre;
     const rutaImagen = path.join(__dirname, '../uploads', nombre);

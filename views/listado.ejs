@@ -118,11 +118,13 @@
                     <table id="dataTable">
                         <thead>
                             <tr>
+                                <th scope="col">Portada</th>
                                 <th scope="col">Código ISBN</th>
                                 <th scope="col">Título</th>
                                 <th scope="col">Autor</th>
                                 <th scope="col">Año de Publicación</th>
                                 <th scope="col">Forma de Obtención</th>
+                                <th scope="col">Estado</th>
                                 <th scope="col" class="cell-actions">Acciones</th>
                             </tr>
                         </thead>
@@ -132,6 +134,62 @@
                     </table>
                 </div>
             </div>
+        </div>
+        <div class="table-container">
+            <div id="modalDetalle" class="modal" style="display:none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center;">
+                <div class="modal-content" style="background: white; padding: 2rem; border-radius: 8px; width: 90%; max-width: 600px; color: black; max-height: 80vh; overflow-y: auto;">
+                    <h3 id="modalTitulo"style="font-size: 2rem; background-clip: unset; -webkit-background-clip: unset; -webkit-text-fill-color: initial; background: none;">Detalles del Libro</h3>
+                    <br>
+                    <hr>
+                    
+
+                    <!--formulario para prestar-->
+                    <div id="seccionPrestar" style="margin-top: 1rem;">
+                        <h4 style="color: #64748b; margin-top: 0.5rem;">Registrar Nuevo Préstamo</h4>
+                        <form id="formPrestamo" class="minimalist-form-container">
+                            <input type="hidden" id="prestamoCodigo">
+                            <div class="form-group">
+                                <label for="codigo" style="margin-bottom: 1rem; text-align: left; font-size: 1.1rem;">Nombre del Lector</label>
+                                <input type="text" id="prestamoLector" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="codigo" style="margin-bottom: 1rem; text-align: left; font-size: 1.1rem;">Fecha de Salida</label>
+                                <input type="date" id="prestamoFechaSalida" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="codigo" style="margin-bottom: 1rem; text-align: left; font-size: 1.1rem;">Fecha Esperada de Devolución</label>
+                                <input type="date" id="prestamoFechaDevolucion" required>
+                            </div>
+
+                            <button type="submit" class="act-btn">Confirmar Préstamo</button>
+                        </form>
+                    </div>
+
+                    <div id="seccionDevolver" style="margin-top: 1rem; display: none;">
+                        <button onclick="enviarDevolucion()" class="dev-btn">Registrar Devolución</button>
+                    </div>
+
+                    <div style="margin-top: 2rem;">
+                        <h4 style="color: #64748b; margin-top: 0.5rem;">Historial de Préstamos</h4>
+                        <table class="table-wrapper">
+                            <thead>
+                                <tr>
+                                    <th>Lector</th>
+                                    <th>Salida</th>
+                                    <th>Devolución Esperada</th>
+                                    <th>Fecha de Entrega</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaHistorial">
+                                
+                            </tbody>
+                        </table>
+                </div>
+                <br>
+                <button onclick="cerrarModal()" class="clo-btn">Cerrar</button>
+                </div>
         </div>
     </main>
 
