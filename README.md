@@ -8,7 +8,6 @@ Aplicación web para la gestión académica y control de calificaciones de estud
 - Albert Campos
 - Yeferson Zambrano
 - Carlos Viloria
-- Wilver Guerrero
 - Sandro Montilla
 
 
