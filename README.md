@@ -15,7 +15,7 @@ Aplicación web para la gestión académica y control de las notas de estudiante
 
 ### 1. Clonar el repositorio
 ```bash
-git clone https://github.com/albertc000/BibliotecaCRUD.git
+git clone https://github.com/albertc000/SistemaDeGestionDeNotasLiceo
 cd GestionNotas
 ```
 
