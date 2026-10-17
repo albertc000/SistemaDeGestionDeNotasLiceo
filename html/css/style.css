@@ -584,8 +584,6 @@
             outline: none;
             overflow: hidden;
             min-width: 200px;
-
-            
             min-height: 50px;
         }
 
@@ -1123,4 +1121,73 @@
     text-align: left;
     padding: 8px; /* Standard padding */
 
+}
+
+
+/* Contenedor horizontal de los selectores y el botón */
+.barra-filtros-select {
+    display: flex;
+    align-items: flex-end;
+    gap:  12px;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    flex-wrap: wrap;
+}
+/* Cada grupo de Label + Select */
+.filtro-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    min-width: 170px;
+}
+.filtro-item label {
+    font-size: var(--font-size);
+    font-weight: 700;
+    color: #334155;
+}
+/* Diseño del <select> como en la captura */
+.select-filtro {
+    width: 100%;
+    padding: 0.55rem 0.8rem;
+    font-size: var(--font-size);
+    color: #1e293b;
+    background-color: #ffffff;
+    border: 1.5px solid #cbd5e1;
+    border-radius: var(--radius);
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.select-filtro:focus {
+    border-color: var(--primary, #0a58cd);
+    box-shadow: 0 0 0 3px rgba(10, 88, 205, 0.15);
+}
+/* Botón Mostrar Todos */
+.filtro-item-btn {
+    display: flex;
+    align-items: flex-end;
+}
+.btn-mostrar-todos {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    background: #0a58cd;
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius);
+    font-size: var(--font-size);
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    min-width: 200px;
+    min-height: 50px;
+}
+.btn-mostrar-todos:hover {
+    background: #0847a6;
+    transform: translateY(-1px);
 }

@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biblioteca</title>
+    <title>Reporte General de Estudiantes</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
@@ -18,16 +18,16 @@
             </svg>
         </div>
 
-        <a href="#" class="brand">
+        <a href="/inicio" class="brand">
             <div class="brand-logo">
                 <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                     width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                     <path fill-rule="evenodd"
-                        d="M6 2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 1 0 0-2h-2v-2h2a1 1 0 0 0 1-1V4a2 2 0 0 0-2-2h-8v16h5v2H7a1 1 0 1 1 0-2h1V2H6Z"
+                        d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2Zm0 5a3 3 0 1 1-3 3 3 3 0 0 1 3-3Zm0 12a7 7 0 0 1-5.83-3.13C6.22 14.59 9.06 14 12 14s5.78.59 5.83 1.87A7 7 0 0 1 12 19Z"
                         clip-rule="evenodd" />
                 </svg>
             </div>
-            <h2>Biblioteca</h2>
+            <h2>Gestión Escolar</h2>
         </a>
 
         <ul class="nav-list">
@@ -67,33 +67,38 @@
     <main class="main-content">
         <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
             <div>
-                <h1 style="font-size: 2rem; background-clip: unset; -webkit-background-clip: unset; -webkit-text-fill-color: initial; background: none;">Reporte General de los Libros</h1>
+                <h1 style="font-size: 2rem; background-clip: unset; -webkit-background-clip: unset; -webkit-text-fill-color: initial; background: none;">Reporte General de Calificaciones</h1>
             </div>
         </header>
 
         <div class="component-wrapper">
-            <a style="padding: 0.5rem;" href="/reporte"><button class="btn-cart" onclick="imprimirTabla()">
-                    <div class="btn-text-content">
-                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M16.444 18H19a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h2.556M17 11V5a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v6h10ZM7 15h10v4a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-4Z"/>
-                        </svg>
+            <button class="btn-cart" onclick="imprimirTabla()" style="padding: 0.5rem 1rem;">
+                <div class="btn-text-content">
+                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M16.444 18H19a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h2.556M17 11V5a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v6h10ZM7 15h10v4a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-4Z"/>
+                    </svg>
 
-                        <span>Imprimir Reporte</span>
-                    </div>
-                </button>
-            </a>
+                    <span>Imprimir Reporte</span>
+                </div>
+            </button>
             <br><br>
             <div class="table-container">
                 <div class="table-bordered">
                     <div id="impresion">
+                        <h2 style="margin-bottom: 1rem; text-align: center;">Nómina General de Estudiantes y Rendimiento Académico</h2>
                         <table id="dataTable">
                             <thead>
                                 <tr>
-                                    <th scope="col">Código ISBN</th>
-                                    <th scope="col">Título</th>
-                                    <th scope="col">Autor</th>
-                                    <th scope="col">Año de Publicación</th>
-                                    <th scope="col">Forma de Obtención</th>
+                                    <th scope="col">Cédula</th>
+                                    <th scope="col">Nombres</th>
+                                    <th scope="col">Apellidos</th>
+                                    <th scope="col">Año</th>
+                                    <th scope="col">Sección</th>
+                                    <th scope="col">N1</th>
+                                    <th scope="col">N2</th>
+                                    <th scope="col">N3</th>
+                                    <th scope="col">N4</th>
+                                    <th scope="col">Promedio</th>
                                     <th scope="col">Estado</th>
                                 </tr>
                             </thead>
@@ -107,9 +112,9 @@
         </div>
     </main>
 
-    <script src="../js/ui.js"></script>
-    <script src="../js/renderizarBD.js"></script>
-    <script src="../js/login.js"></script>
+    <script src="/scripts/ui.js"></script>
+    <script src="/scripts/renderizarBD.js"></script>
+    <script src="/scripts/login.js"></script>
 </body>
 
 </html>

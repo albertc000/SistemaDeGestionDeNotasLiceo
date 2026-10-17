@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biblioteca</title>
+    <title>Panel de Control - Gestión Escolar</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <aside class="sidebar" id="sidebar">
@@ -14,13 +14,13 @@
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"></path></svg>
         </div>
 
-        <a href="#" class="brand">
+        <a href="/inicio" class="brand">
             <div class="brand-logo">
                 <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                    <path fill-rule="evenodd" d="M6 2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 1 0 0-2h-2v-2h2a1 1 0 0 0 1-1V4a2 2 0 0 0-2-2h-8v16h5v2H7a1 1 0 1 1 0-2h1V2H6Z" clip-rule="evenodd"/>
+                    <path fill-rule="evenodd" d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2Zm0 5a3 3 0 1 1-3 3 3 3 0 0 1 3-3Zm0 12a7 7 0 0 1-5.83-3.13C6.22 14.59 9.06 14 12 14s5.78.59 5.83 1.87A7 7 0 0 1 12 19Z" clip-rule="evenodd"/>
                 </svg>
             </div>
-            <h2>Biblioteca</h2>
+            <h2>Gestión Escolar</h2>
         </a>
 
         <ul class="nav-list">
@@ -31,13 +31,21 @@
                     </svg>
                     Inicio
                 </a>
-            </li>
+            </li>            
             <li class="nav-item">
                 <a href="/listado" class="nav-link">
                     <svg id="icono" class="w-[34px] h-[34px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M9 8h10M9 12h10M9 16h10M4.99 8H5m-.02 4h.01m0 4H5"/>
                     </svg>
                     Listado Completo
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/registro" class="nav-link">
+                    <svg id="icono" class="w-[34px] h-[34px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v14m-7-7h14"/>
+                    </svg>
+                    Nuevo Estudiante
                 </a>
             </li>
         </ul>
@@ -55,43 +63,63 @@
     <main class="main-content">
         <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
             <div>
-                <h1 style="font-size: 2rem; background-clip: unset; -webkit-background-clip: unset; -webkit-text-fill-color: initial; background: none;">Sistema de Gestión de una Biblioteca</h1>
-                <p style="color: #64748b; margin-top: 0.5rem;">Bienvenido al Panel de Control</p>
+                <h1 style="font-size: 2rem; background-clip: unset; -webkit-background-clip: unset; -webkit-text-fill-color: initial; background: none;">Sistema de Gestión de Estudiantes y Notas</h1>
+                <p style="color: #64748b; margin-top: 0.5rem;">Bienvenido al Panel de Control Académico</p>
             </div>
         </header>
 
-        <div class="dashboard-grid">
-                <div class="stat-card" >
-                    <h4>Total de Libros</h4>
-                    <span style="display: flex; justify-content: space-between; align-items: center;">
-                        <p style="margin-right: 100px;"><span id="totalLibros"></span></p>
-                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.03v13m0-13c-2.819-.831-4.715-1.076-8.029-1.023A.99.99 0 0 0 3 6v11c0 .563.466 1.014 1.03 1.007 3.122-.043 5.018.212 7.97 1.023m0-13c2.819-.831 4.715-1.076 8.029-1.023A.99.99 0 0 1 21 6v11c0 .563-.466 1.014-1.03 1.007-3.122-.043-5.018.212-7.97 1.023"/>
+        <div class="dashboard-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem;">
+                <div class="stat-card">
+                    <h4>Total Estudiantes</h4>
+                    <span style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+                        <p style="font-size: 1.8rem; font-weight: bold;"><span id="totalEstudiantes">0</span></p>
+                            <svg id="icono" style="width:30px; height:30px;" class="w-[34px] h-[34px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-width="2" d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                            </svg>
+
+                    </span>
+                </div>
+                <div class="stat-card">
+                    <h4>Estudiantes Aprobados</h4>
+                    <span style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+                        <p style="font-size: 1.8rem; font-weight: bold; color: #16a34a;"><span id="estudiantesPrestados">0</span></p>
+                        <svg id="icono" style="width:30px; height:30px; color: #16a34a;" class="w-[34px] h-[34px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11.917 9.724 16.5 19 7.5"/>
                         </svg>
                     </span>
                 </div>
                 <div class="stat-card">
-                    <h4>Libros Prestados</h4>
-                    <span style="display: flex; justify-content: space-between; align-items: center;">
-                        <p style="margin-right: 100px;"><span id="librosPrestados"></span></p>
-                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M12.1429 11v9m0-9c-2.50543-.7107-3.19099-1.39543-6.13657-1.34968-.48057.00746-.86348.38718-.86348.84968v7.2884c0 .4824.41455.8682.91584.8617 2.77491-.0362 3.45995.6561 6.08421 1.3499m0-9c2.5053-.7107 3.1067-1.39542 6.0523-1.34968.4806.00746.9477.38718.9477.84968v7.2884c0 .4824-.4988.8682-1 .8617-2.775-.0362-3.3758.6561-6 1.3499m2-14c0 1.10457-.8955 2-2 2-1.1046 0-2-.89543-2-2s.8954-2 2-2c1.1045 0 2 .89543 2 2Z"/>
+                    <h4>Estudiantes Reprobados</h4>
+                    <span style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+                        <p style="font-size: 1.8rem; font-weight: bold; color: #dc2626;"><span id="estudiantesReprobados">0</span></p>
+                        <svg id="icono" style="width:30px; height:30px; color: #dc2626;" class="w-[34px] h-[34px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/>
                         </svg>
+                    </span>
+                </div>
+                <div class="stat-card">
+                    <h4>Promedio General</h4>
+                    <span style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+                        <p style="font-size: 1.8rem; font-weight: bold; color: #2563eb;"><span id="promedioGeneral">0</span> pts</p>
+                        <svg id="icono" style="width:30px; height:30px; color: #2563eb;" class="w-[34px] h-[34px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4.5V19a1 1 0 0 0 1 1h15M7 14l4-4 4 4 5-5m0 0h-3.207M20 9v3.207"/>
+                        </svg>
+
                     </span>
                 </div>
         </div>
 
-        <div style="margin-top: 3rem; background: white; border: 1px solid var(--border); border-radius: 16px; padding: 2rem;" class="dashboard-grid";>
+        <div style="margin-top: 3rem; background: white; border: 1px solid var(--border); border-radius: 16px; padding: 2rem;" class="dashboard-grid">
             <div class="stat-card">
-                <h4 style="margin-bottom: 1.5rem; text-align: center; font-size: 1.1rem;">Libros Recientemente Añadidos</h4>
+                <h4 style="margin-bottom: 1.5rem; text-align: center; font-size: 1.1rem;">Últimos Estudiantes Registrados</h4>
                 <div style="display: flex; flex-direction: column; gap: 1rem;">
                     <table id="dataTable">
                         <thead>
                             <tr>
-                                <th scope="col">Código ISBN</th>
-                                <th scope="col">Título</th>
-                                <th scope="col">Autor</th>
-                                <th scope="col">Año</th>
+                                <th scope="col">Cédula</th>
+                                <th scope="col">Estudiante</th>
+                                <th scope="col">Año / Sec</th>
+                                <th scope="col">Promedio</th>
                             </tr>
                         </thead>
                         <tbody id="cuerpoTabla">
@@ -101,15 +129,15 @@
                 </div>
             </div>
             <div class="stat-card">
-                <h4 style="margin-bottom: 1.5rem; text-align: center; font-size: 1.1rem;">Primeros Libros añadidos</h4>
+                <h4 style="margin-bottom: 1.5rem; text-align: center; font-size: 1.1rem;">Primeros Estudiantes Registrados</h4>
                 <div style="display: flex; flex-direction: column; gap: 1rem;">
                     <table id="dataTable">
                         <thead>
                             <tr>
-                                <th scope="col">Código ISBN</th>
-                                <th scope="col">Título</th>
-                                <th scope="col">Autor</th>
-                                <th scope="col">Año</th>
+                                <th scope="col">Cédula</th>
+                                <th scope="col">Estudiante</th>
+                                <th scope="col">Año / Sec</th>
+                                <th scope="col">Promedio</th>
                             </tr>
                         </thead>
                         <tbody id="cuerpoTabla2">
@@ -121,8 +149,9 @@
         </div>
     </main>
 
-    <script src="../js/ui.js"></script>
-    <script src="../js/renderizarBD.js"></script>
-    <script src="../js/login.js"></script>
+    <script src="/scripts/ui.js"></script>
+    <script src="/scripts/renderizarBD.js"></script>
+    <script src="/scripts/login.js"></script>
 </body>
+</html>>
 </html>

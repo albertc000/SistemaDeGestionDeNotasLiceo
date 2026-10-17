@@ -1,0 +1,37 @@
+{
+  "listaEstudiantes": [
+    {
+      "cedula": "30717115",
+      "nombre": "Albert",
+      "apellido": "Campos",
+      "ano": "1er Año",
+      "seccion": "A",
+      "nota1": 0,
+      "nota2": 0,
+      "nota3": 0,
+      "nota4": 0
+    },
+    {
+      "cedula": "303030",
+      "nombre": "Jose",
+      "apellido": "Jose",
+      "ano": "1er Año",
+      "seccion": "A",
+      "nota1": 0,
+      "nota2": 0,
+      "nota3": 0,
+      "nota4": 0
+    },
+    {
+      "cedula": "11389018",
+      "nombre": "pepe",
+      "apellido": "pepe",
+      "ano": "1er Año",
+      "seccion": "C",
+      "nota1": 0,
+      "nota2": 0,
+      "nota3": 0,
+      "nota4": 0
+    }
+  ]
+}

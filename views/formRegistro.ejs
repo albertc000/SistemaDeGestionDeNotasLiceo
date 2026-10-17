@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biblioteca</title>
+    <title>Gestión de Estudiantes</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <aside class="sidebar" id="sidebar">
@@ -15,13 +15,13 @@
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"></path></svg>
         </div>
 
-        <a href="#" class="brand">
+        <a href="/inicio" class="brand">
             <div class="brand-logo">
                 <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                    <path fill-rule="evenodd" d="M6 2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 1 0 0-2h-2v-2h2a1 1 0 0 0 1-1V4a2 2 0 0 0-2-2h-8v16h5v2H7a1 1 0 1 1 0-2h1V2H6Z" clip-rule="evenodd"/>
+                    <path fill-rule="evenodd" d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2Zm0 5a3 3 0 1 1-3 3 3 3 0 0 1 3-3Zm0 12a7 7 0 0 1-5.83-3.13C6.22 14.59 9.06 14 12 14s5.78.59 5.83 1.87A7 7 0 0 1 12 19Z" clip-rule="evenodd"/>
                 </svg>
             </div>
-            <h2>Biblioteca</h2>
+            <h2>Gestión Escolar</h2>
         </a>
 
         <ul class="nav-list">
@@ -41,6 +41,14 @@
                     Listado Completo
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="/registro" class="nav-link active">
+                    <svg id="icono" class="w-[34px] h-[34px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v14m-7-7h14"/>
+                    </svg>
+                    Nuevo Estudiante
+                </a>
+            </li>
         </ul>
 
         <div class="sidebar-footer">
@@ -56,83 +64,107 @@
     <main class="main-content">
         <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
             <div>
-                <h1 style="font-size: 2rem; background-clip: unset; -webkit-background-clip: unset; -webkit-text-fill-color: initial; background: none;">Añadir un Libro Nuevo</h1>
-                <p style="color: #64748b; margin-top: 0.5rem;">Rellene el Formulario</p>
+                <h1 style="font-size: 2rem; background-clip: unset; -webkit-background-clip: unset; -webkit-text-fill-color: initial; background: none;">Añadir un Estudiante Nuevo</h1>
+                <p style="color: #64748b; margin-top: 0.5rem;">Rellene los Datos del Alumno y sus Calificaciones</p>
             </div>
         </header>
 
         <div class="dashboard-grid2" style="display: flex; gap: 2rem; align-items: flex-start; max-width: 1200px; width: 100%;">
             
-            <div class="stat-card" style="flex: 1; max-width: 600px;">
-                <div id="mensaje-error" style=" display: none;">
+            <div class="stat-card" style="flex: 1; max-width: 700px;">
+                <div id="mensaje-error" style="display: none; padding: 0.8rem; margin-bottom: 1rem; background-color: #fee2e2; color: #991b1b; border-radius: 8px; border: 1px solid #f87171;">
                 </div>
                 <div class="minimalist-form-container">
-                    <form action="/nuevoLibro" method="post" id="formulario">
-                        <h2 style="margin-bottom: 1rem; text-align: left; font-size: 1.7;">Información del Libro</h2>
+                    <form action="/nuevoEstudiante" method="post" id="formulario">
+                        <h2 style="margin-bottom: 1.5rem; text-align: left; font-size: 1.4rem;">Información del Alumno</h2>
                     
                         <div class="form-group">
-                            <label for="codigo" style="margin-bottom: 1rem; text-align: left; font-size: 1.1rem;">Codigo ISBN</label>
-                                <input type="number" id="address" name="codigo" required placeholder="Ej: 9788437604947">
+                            <label for="cedula" style="margin-bottom: 0.5rem; text-align: left; font-size: 1rem;">Cédula de Identidad</label>
+                            <input type="number" id="cedula" name="cedula" required placeholder="Ej: 30123456">
                         </div>
                         
-                        <div class="form-group">
-                            <label for="titulo" style="margin-bottom: 1rem; text-align: left; font-size: 1.1rem;">Nombre del Libro</label>
-                                <input type="text" id="address" name="titulo" required placeholder="Ej: Don Quijote de la Mancha">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="autor" style="margin-bottom: 1rem; text-align: left; font-size: 1.1rem;">Nombre del Autor</label>
-                            <input type="text" id="address" name="autor" required placeholder="Ej: Miguel de Cervantes">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nombre" style="margin-bottom: 0.5rem; text-align: left; font-size: 1rem;">Nombres</label>
+                                <input type="text" id="nombre" name="nombre" required placeholder="Ej: Juan Andrés">
+                            </div>
+                            <div class="form-group">
+                                <label for="apellido" style="margin-bottom: 0.5rem; text-align: left; font-size: 1rem;">Apellidos</label>
+                                <input type="text" id="apellido" name="apellido" required placeholder="Ej: Pérez Gómez">
+                            </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="ano" style="margin-bottom: 1rem; text-align: left; font-size: 1.1rem;">Año de Publicación</label>
-                                <input type="number" id="first-name" name="ano" required placeholder="Ej: 1605">
+                                <label for="ano" style="margin-bottom: 0.5rem; text-align: left; font-size: 1rem;">Año Escolar</label>
+                                <select id="ano" name="ano" required>
+                                    <option value="1er Año">1er Año</option>
+                                    <option value="2do Año">2do Año</option>
+                                    <option value="3er Año">3er Año</option>
+                                    <option value="4to Año">4to Año</option>
+                                    <option value="5to Año">5to Año</option>
+                                </select>
                             </div>
                             <div class="form-group">
-                                <label for="obtencion" style="margin-bottom: 1rem; text-align: left; font-size: 1.1rem;">Forma de Obtención</label>
-                                <select id="country" name="obtencion" required>
-                                    <option>Comprado</option>
-                                    <option>Donado</option>
-                                    <option>Otro</option>
+                                <label for="seccion" style="margin-bottom: 0.5rem; text-align: left; font-size: 1rem;">Sección</label>
+                                <select id="seccion" name="seccion" required>
+                                    <option value="A">Sección A</option>
+                                    <option value="B">Sección B</option>
+                                    <option value="C">Sección C</option>
+                                    <option value="D">Sección D</option>
                                 </select>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="autor" style="margin-bottom: 1rem; text-align: left; font-size: 1.1rem;">Portada del Libro</label>
-                            <input type="file" accept="image/*" id="inputPortada" name="portada">
+                        <h3 style="margin-top: 1.5rem; margin-bottom: 1rem; text-align: left; font-size: 1.2rem; border-top: 1px solid #e2e8f0; padding-top: 1rem;">Calificaciones de lapsos (0 a 20 pts)</h3>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nota1" style="margin-bottom: 0.5rem; text-align: left; font-size: 0.95rem;">Nota 1</label>
+                                <input type="number" id="nota1" name="nota1" min="0" max="20" step="0.1" required value="0" placeholder="0 - 20">
+                            </div>
+                            <div class="form-group">
+                                <label for="nota2" style="margin-bottom: 0.5rem; text-align: left; font-size: 0.95rem;">Nota 2</label>
+                                <input type="number" id="nota2" name="nota2" min="0" max="20" step="0.1" required value="0" placeholder="0 - 20">
+                            </div>
                         </div>
 
-                        <button type="submit" class="submit-btn">Añadir</button>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nota3" style="margin-bottom: 0.5rem; text-align: left; font-size: 0.95rem;">Nota 3</label>
+                                <input type="number" id="nota3" name="nota3" min="0" max="20" step="0.1" required value="0" placeholder="0 - 20">
+                            </div>
+                            <div class="form-group">
+                                <label for="nota4" style="margin-bottom: 0.5rem; text-align: left; font-size: 0.95rem;">Nota 4</label>
+                                <input type="number" id="nota4" name="nota4" min="0" max="20" step="0.1" required value="0" placeholder="0 - 20">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="submit-btn" style="margin-top: 1rem;">Registrar Estudiante</button>
                     </form>
                 </div>
             </div>
 
-            <div class="stat-card" style="width: 320px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem;">
-                <h4 style="margin-bottom: 1.2rem; text-align: center; color: #64748b; font-size: 0.9rem; text-transform: uppercase;">Vista Previa</h4>
-                
-                <img id="vistaPrevia" src="" alt="Vista previa de la portada" style="display: none; width: 100%; max-height: 420px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 4px 10px rgba(0,0,0,0.08);">
-                
-                <div id="vistaPreviaPlaceholder" style="width: 100%; height: 350px; background-color: #f8fafc; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.9rem; color: #64748b; border-radius: 8px; border: 2px dashed #cbd5e1; gap: 0.8rem; text-align: center; padding: 1.5rem;">
-                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: #94a3b8;">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                        <circle cx="8.5" cy="8.5" r="1.5" />
-                        <polyline points="21 15 16 10 5 21" />
-                    </svg>
-                    <span>Selecciona un archivo para ver la portada aquí</span>
+            <div class="stat-card" style="width: 320px; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; padding: 2rem; background: #f8fafc; border-radius: 12px; border: 1px solid #cbd5e1;">
+                <h4 style="margin-bottom: 1.2rem; text-align: left; color: #334155; font-size: 1.1rem;">Criterio de Evaluación</h4>
+                <p style="font-size: 0.9rem; color: #64748b; line-height: 1.5; margin-bottom: 1rem;">
+                    El sistema calcula automáticamente el promedio general sumando las 4 calificaciones introducidas y dividiendo entre 4.
+                </p>
+                <div style="background: white; padding: 1rem; border-radius: 8px; width: 100%; border: 1px solid #e2e8f0; margin-bottom: 1rem;">
+                    <strong style="color: #16a34a; font-size: 0.95rem;">Aprobado:</strong>
+                    <span style="font-size: 0.9rem; color: #475569;"> Promedio &ge; 10 pts</span>
+                </div>
+                <div style="background: white; padding: 1rem; border-radius: 8px; width: 100%; border: 1px solid #e2e8f0;">
+                    <strong style="color: #dc2626; font-size: 0.95rem;">Reprobado:</strong>
+                    <span style="font-size: 0.9rem; color: #475569;"> Promedio &lt; 10 pts</span>
                 </div>
             </div>
 
-            
         </div>
-
-
     </main>
 
-    <script src="../js/ui.js"></script>
-    <script src="../js/formularios.js"></script>
-    <script src="../js/login.js"></script>
+    <script src="/scripts/ui.js"></script>
+    <script src="/scripts/formularios.js"></script>
+    <script src="/scripts/login.js"></script>
 </body>
 </html>

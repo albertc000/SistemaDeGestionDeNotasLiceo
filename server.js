@@ -8,6 +8,8 @@ const { title } = require('process');
 const { TIMEOUT } = require('dns');
 const multer = require('multer');
 const cookieParser = require('cookie-parser');
+const bcrypt = require('bcryptjs');
+const connect = require('./routes/db.js');
 
 
 //iniciar server
@@ -18,8 +20,12 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 //middleware
 app.use(express.static('html'));
-app.use('/js', express.static('js'));
+app.use('/scripts', express.static('scripts'));
 app.use(cookieParser());
+app.use((req, res, next) => {
+    req.db = connect
+    next()
+})
 
 const upload = multer(); 
 app.use(express.json());
@@ -32,7 +38,7 @@ app.set('view engine', 'ejs');
 app.use("/", router);
 
 //server
-const PUERTO = 3000;
+const PUERTO = process.env.PORT || 3000;
 app.listen(PUERTO, () => {
-    console.log(`Servidor de la Biblioteca corriendo en http://localhost:${PUERTO}`);
+    console.log(`Servidor de Gestión de Estudiantes y Notas corriendo en http://localhost:${PUERTO}`);
 });
