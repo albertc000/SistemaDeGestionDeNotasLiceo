@@ -1,6 +1,6 @@
 # Sistema de Gestión de Estudiantes y Notas — Liceo Andrés Bello
 
-Aplicación web para la gestión académica y control de calificaciones de estudiantes. Permite realizar operaciones CRUD (Crear, Leer, Actualizar y Eliminar), control de notas (evaluaciones 1 a 4), reportes y autenticación mediante JWT.
+Aplicación web para la gestión académica y control de las notas de estudiantes. Permite realizar operaciones CRUD (Crear, Leer, Actualizar y Eliminar), control de notas (evaluaciones 1 a 4), reportes y autenticación mediante JWT.
 
 
 ## Integrantes
