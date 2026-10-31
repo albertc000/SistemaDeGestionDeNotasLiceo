@@ -16,8 +16,24 @@ console.log(">> Conectando a MySQL");
 const connect = new mysql(dbConfig);
 
 const { inicializarUsuarioAdmin } = require('../model/usuarios.js');
+const { insertarEstudiantesModelo } = require('../model/estudiantes.js');
+const { insertarProfeModelo } = require('../model/profesores.js');
+const { inicializarGrados } = require('../model/grados.js');
+const { inicializarMaterias } = require('../model/materias.js');
+const { inicializarPeriodo } = require('../model/periodosAcademicos.js');
+const { inicializarSecciones } = require('../model/secciones.js');
 
-inicializarUsuarioAdmin(connect);
+async function inicializarTodo() {
+    await inicializarUsuarioAdmin(connect);
+    await inicializarGrados(connect);   
+    await inicializarPeriodo(connect);   
+    await inicializarSecciones(connect);
+    await inicializarMaterias(connect); 
+    await insertarProfeModelo(connect);
+    await insertarEstudiantesModelo(connect);
+}
+
+inicializarTodo();
 
 connect.pathModels(path.join(__dirname, '../model'));
 module.exports = connect;

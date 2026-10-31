@@ -1,0 +1,42 @@
+services:
+  #base de datos MySQL
+  db:
+    image: mysql:8.0
+    container_name: liceo_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: liceo_andres_bello
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./bd.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-padmin"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+
+  #aplicación web node.js/express
+  app:
+    build: .
+    container_name: liceo_app
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      JWT_SECRET: tu_clave_secreta
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: admin
+      DB_NAME: liceo_andres_bello
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  mysql_data:

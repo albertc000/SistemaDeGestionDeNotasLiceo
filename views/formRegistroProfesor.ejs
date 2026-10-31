@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Añadir Profesor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="btn-close-sidebar" id="closeSidebar">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+        </div>
+
+        <a href="/inicio" class="brand">
+            <div class="brand-logo">
+                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2Zm0 5a3 3 0 1 1-3 3 3 3 0 0 1 3-3Zm0 12a7 7 0 0 1-5.83-3.13C6.22 14.59 9.06 14 12 14s5.78.59 5.83 1.87A7 7 0 0 1 12 19Z" clip-rule="evenodd"/>
+                </svg>
+            </div>
+            <h2>Gestión Escolar</h2>
+        </a>
+
+        <ul class="nav-list">
+            <li class="nav-item">
+                <a href="/inicio" class="nav-link">
+                    <svg id="icono" class="w-[34px] h-[34px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="34" height="34" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m4 12 8-8 8 8M6 10.5V19a1 1 0 0 0 1 1h3v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h3a1 1 0 0 0 1-1v-8.5"/>
+                    </svg>
+                    Inicio
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/listado" class="nav-link">
+                    <svg id="icono" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-width="2" d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                    </svg>
+                    Estudiantes
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/listadoProfesores" class="nav-link">
+                    <svg id="icono" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.6144 7.19994c.3479.48981.5999 1.15357.5999 1.80006 0 1.6569-1.3432 3-3 3-1.6569 0-3.00004-1.3431-3.00004-3 0-.67539.22319-1.29865.59983-1.80006M6.21426 6v4m0-4 6.00004-3 6 3-6 2-2.40021-.80006M6.21426 6l3.59983 1.19994M6.21426 19.8013v-2.1525c0-1.6825 1.27251-3.3075 2.95093-3.6488l3.04911 2.9345 3-2.9441c1.7026.3193 3 1.9596 3 3.6584v2.1525c0 .6312-.5373 1.1429-1.2 1.1429H7.41426c-.66274 0-1.2-.5117-1.2-1.1429Z"/>
+                    </svg>
+                    Profesores
+                </a>
+            </li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <a onclick="cerrarSesion()" class="nav-link" style="margin-top: 1rem;">
+                <svg id="icono" class="w-[34px] h-[34px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12l4-4m-4 4 4 4"/>
+                </svg>
+                Salir
+            </a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <div>
+                <h1 style="font-size: 2rem; background-clip: unset; -webkit-background-clip: unset; -webkit-text-fill-color: initial; background: none;">Añadir un Profesor Nuevo</h1>
+                <p style="color: #64748b; margin-top: 0.5rem;">Rellene los datos personales y de contacto del docente</p>
+            </div>
+        </header>
+
+        <div class="dashboard-grid2" style="display: flex; text-align: center; gap: 2rem; align-items: flex-start; max-width: 1200px; width: 100%;">
+            <div class="stat-card" style="flex: 1; max-width: 700px;">
+                <div id="mensaje-error" style="display: none; padding: 0.8rem; margin-bottom: 1rem; background-color: #fee2e2; color: #991b1b; border-radius: 8px; border: 1px solid #f87171;">
+                </div>
+                <div class="minimalist-form-container">
+                    <form action="/nuevoProfesor" method="post" id="formRegistroProfesor">
+                        <h2 style="margin-bottom: 1.5rem; text-align: left; font-size: 1.4rem;">Información del Docente</h2>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="cedula" style="margin-bottom: 0.5rem; text-align: left; font-size: 1rem;">Cédula de Identidad</label>
+                                <input type="number" id="cedula" name="cedula" required placeholder="Ej: 18234567">
+                                
+                            </div>
+                            <div class="form-group">
+                                <label for="genero" style="margin-bottom: 0.5rem; text-align: left; font-size: 1rem;">Género</label>
+                                <select id="genero" name="genero">
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nombre" style="margin-bottom: 0.5rem; text-align: left; font-size: 1rem;">Primer Nombre</label>
+                                <input type="text" id="nombre" name="nombre" required placeholder="Ej: Carlos">
+                            </div>
+                            <div class="form-group">
+                                <label for="seg_nombre" style="margin-bottom: 0.5rem; text-align: left; font-size: 1rem;">Segundo Nombre</label>
+                                <input type="text" id="seg_nombre" name="seg_nombre" placeholder="Ej: Eduardo">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="apellido" style="margin-bottom: 0.5rem; text-align: left; font-size: 1rem;">Primer Apellido</label>
+                                <input type="text" id="apellido" name="apellido" required placeholder="Ej: Mendoza">
+                            </div>
+                            <div class="form-group">
+                                <label for="seg_apellido" style="margin-bottom: 0.5rem; text-align: left; font-size: 1rem;">Segundo Apellido</label>
+                                <input type="text" id="seg_apellido" name="seg_apellido" placeholder="Ej: Rivas">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="telefono" style="margin-bottom: 0.5rem; text-align: left; font-size: 1rem;">Teléfono de Contacto</label>
+                                <input type="text" id="telefono" name="telefono" required placeholder="Ej: 0414-1234567">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="direccion" style="margin-bottom: 0.5rem; text-align: left; font-size: 1rem;">Dirección de Habitación</label>
+                            <input type="text" id="direccion" name="direccion" placeholder="Ej: Av. Bolívar, Calle 5">
+                        </div>
+
+                        <button type="submit" class="submit-btn" style="margin-top: 1rem;">Registrar Profesor</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/scripts/ui.js"></script>
+    <script src="/scripts/formularios.js"></script>
+    <script src="/scripts/login.js"></script>
+</body>
+</html>

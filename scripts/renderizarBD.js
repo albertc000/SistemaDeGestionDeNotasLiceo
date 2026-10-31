@@ -27,10 +27,17 @@ async function iniciarFiltrosSelect() {
         console.error("Error al cargar estudiantes:", error);
     }
 }
+
+
+
 //funcion que se ejecuta cada vez que cambia el año o la seccion
 function aplicarFiltrosSelect() {
-    const anoSeleccionado = document.getElementById('filtroAno').value;
-    const seccionSeleccionada = document.getElementById('filtroSeccion').value;
+    const elAno = document.getElementById('filtroAno');
+    const elSec = document.getElementById('filtroSeccion');
+    if (!elAno || !elSec) return;
+
+    const anoSeleccionado = elAno.value;
+    const seccionSeleccionada = elSec.value;
     let resultado = listaCompletaEstudiantes;
     if (anoSeleccionado !== "") {
         resultado = resultado.filter(est => est.ano === anoSeleccionado);
@@ -42,16 +49,31 @@ function aplicarFiltrosSelect() {
     if (contador) contador.textContent = resultado.length;
     renderizarFilas(resultado);
 }
+
 //boton mostrar todos
 function mostrarTodosLosEstudiantes() {
-    document.getElementById('filtroAno').value = "";
-    document.getElementById('filtroSeccion').value = "";
+    const elAno = document.getElementById('filtroAno');
+    const elSec = document.getElementById('filtroSeccion');
+    if (elAno) elAno.value = "";
+    if (elSec) elSec.value = "";
     aplicarFiltrosSelect();
 }
+
 //renderizar las filas en la tabla existente
 function renderizarFilas(estudiantes) {
     const cuerpo = document.getElementById('cuerpoTabla');
     if (!cuerpo) return;
+    // Si hubo un error en la API o no es un arreglo
+    if (!Array.isArray(estudiantes)) {
+        cuerpo.innerHTML = `
+            <tr>
+                <td colspan="6" style="text-align: center; padding: 2rem; color: #dc2626;">
+                    Error al cargar los datos desde el servidor. Verifique la base de datos.
+                </td>
+            </tr>
+        `;
+        return;
+    }
     if (estudiantes.length === 0) {
         cuerpo.innerHTML = `
             <tr>
@@ -72,7 +94,7 @@ function renderizarFilas(estudiantes) {
         return `
             <tr>
                 <td style="font-weight: 500;">${est.cedula}</td>
-                <td style="font-weight: 600;">${est.nombre} ${est.apellido}</td>
+                <td style="font-weight: 600;">${est.nombre} ${est.seg_nombre} ${est.apellido} ${est.seg_apellido}</td>
                 <td>${est.ano || '-'}</td>
                 <td>${est.seccion || '-'}</td>
                 <td><span style="${colorEstado} ${badgeBg}">${est.estado || (esAprobado ? "Aprobado" : "Reprobado")}</span></td>
@@ -95,8 +117,13 @@ function renderizarFilas(estudiantes) {
         `;
     }).join('');
 }
-//iniciar al cargar el DOM
-document.addEventListener('DOMContentLoaded', iniciarFiltrosSelect);
+
+//iniciar al cargar el DOM si los filtros existen en la página
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('filtroAno')) {
+        iniciarFiltrosSelect();
+    }
+});
 async function eliminarEstudiante(cedula, nombreCompleto) {
     const confirmar = confirm(`¿Seguro que desea eliminar al estudiante: ${nombreCompleto}?`);
     if (!confirmar) return;
@@ -190,60 +217,79 @@ if (input) {
 //modal boleta
 async function abrirModalDetalle(cedula) {
     try {
-        const respuesta = await fetch('/api/estudiantes');
-        const estudiantes = await respuesta.json();
-        const est = estudiantes.find(e => String(e.cedula) === String(cedula));
+        const respuesta = await fetch(`/api/calificaciones/${cedula}`);
+        const data = await respuesta.json();
 
-        if (!est) return alert("Estudiante no encontrado.");
+        if (!data.exito) {
+            alert(data.mensaje || "No se pudo cargar el boletín.");
+            return;
+        }
+
+        const est = data.estudiante;
+        const materias = data.materias || [];
 
         const modalTitulo = document.getElementById('modalTitulo');
         const modalSubtitulo = document.getElementById('modalSubtitulo');
         const contenido = document.getElementById('detalleEstudianteContenido');
 
-        if (modalTitulo) modalTitulo.textContent = `Boletín: ${est.nombre} ${est.apellido}`;
-        if (modalSubtitulo) modalSubtitulo.textContent = `Cédula: ${est.cedula} | ${est.ano || '1er Año'} - Sección ${est.seccion || 'A'}`;
+        if (modalTitulo) modalTitulo.textContent = `Boletín: ${est.nombre}`;
+        if (modalSubtitulo) modalSubtitulo.textContent = `Cédula: V-${est.cedula}`;
 
-        const prom = Number(est.promedio) || 0;
-        const esAprobado = prom >= 10;
+        // Calcular promedio general
+        let sumaPromedios = 0;
+        let cantMaterias = 0;
+        materias.forEach(m => {
+            sumaPromedios += Number(m.promedio) || 0;
+            cantMaterias++;
+        });
+
+        const promGen = cantMaterias > 0 ? (sumaPromedios / cantMaterias).toFixed(2) : "0.00";
+        const esAprobado = Number(promGen) >= 10;
         const estadoTexto = esAprobado ? "Aprobado" : "Reprobado";
         const estadoColor = esAprobado ? "#16a34a" : "#dc2626";
 
         if (contenido) {
             contenido.innerHTML = `
-                <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
-                    <h4 style="margin-bottom: 0.8rem; color: #334155; font-size: 1.1rem;">Desglose de Evaluaciones</h4>
-                    <table style="width: 100%; border-collapse: collapse; text-align: left; background: white; border-radius: 6px; overflow: hidden;">
+                <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0; overflow-x: auto;">
+                    <h4 style="margin-bottom: 0.8rem; color: #334155; font-size: 1.1rem;">Calificaciones por Materia (Evaluaciones 1 a 4)</h4>
+                    <table style="width: 100%; border-collapse: collapse; text-align: left; background: white; border-radius: 6px; overflow: hidden; font-size: 0.95rem;">
                         <thead>
-                            <tr style="background: #f1f5f9; border-bottom: 1px solid #cbd5e1;">
-                                <th style="padding: 10px;">Lapso / Evaluación</th>
-                                <th style="padding: 10px; text-align: right;">Calificación</th>
+                            <tr style="background: #f1f5f9; border-bottom: 2px solid #cbd5e1;">
+                                <th style="padding: 10px;">Asignatura</th>
+                                <th style="padding: 10px; text-align: center;">Nota 1</th>
+                                <th style="padding: 10px; text-align: center;">Nota 2</th>
+                                <th style="padding: 10px; text-align: center;">Nota 3</th>
+                                <th style="padding: 10px; text-align: center;">Nota 4</th>
+                                <th style="padding: 10px; text-align: right;">Promedio</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr style="border-bottom: 1px solid #f1f5f9;">
-                                <td style="padding: 10px;">Lapso 1 (Nota 1)</td>
-                                <td style="padding: 10px; text-align: right; font-weight: bold;">${est.nota1} / 20 pts</td>
-                            </tr>
-                            <tr style="border-bottom: 1px solid #f1f5f9;">
-                                <td style="padding: 10px;">Lapso 2 (Nota 2)</td>
-                                <td style="padding: 10px; text-align: right; font-weight: bold;">${est.nota2} / 20 pts</td>
-                            </tr>
-                            <tr style="border-bottom: 1px solid #f1f5f9;">
-                                <td style="padding: 10px;">Lapso 3 (Nota 3)</td>
-                                <td style="padding: 10px; text-align: right; font-weight: bold;">${est.nota3} / 20 pts</td>
-                            </tr>
-                            <tr style="border-bottom: 1px solid #f1f5f9;">
-                                <td style="padding: 10px;">Lapso 4 (Nota 4)</td>
-                                <td style="padding: 10px; text-align: right; font-weight: bold;">${est.nota4} / 20 pts</td>
-                            </tr>
+                            ${materias.length > 0 ? materias.map(m => `
+                                <tr style="border-bottom: 1px solid #f1f5f9;">
+                                    <td style="padding: 10px; font-weight: 600;">${m.materia}</td>
+                                    <td style="padding: 10px; text-align: center;">${m.lapso1 !== null ? m.lapso1 : '-'}</td>
+                                    <td style="padding: 10px; text-align: center;">${m.lapso2 !== null ? m.lapso2 : '-'}</td>
+                                    <td style="padding: 10px; text-align: center;">${m.lapso3 !== null ? m.lapso3 : '-'}</td>
+                                    <td style="padding: 10px; text-align: center;">${m.lapso4 !== null ? m.lapso4 : '-'}</td>
+                                    <td style="padding: 10px; text-align: right; font-weight: bold; color: ${m.promedio >= 10 ? '#16a34a' : '#dc2626'};">
+                                        ${m.promedio} pts
+                                    </td>
+                                </tr>
+                            `).join('') : `
+                                <tr>
+                                    <td colspan="6" style="padding: 1.5rem; text-align: center; color: #64748b;">
+                                        No hay materias ni calificaciones registradas para este estudiante.
+                                    </td>
+                                </tr>
+                            `}
                         </tbody>
                     </table>
                 </div>
 
-                <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
                     <div style="flex: 1; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 1rem; border-radius: 8px; text-align: center;">
                         <div style="font-size: 0.85rem; color: #166534;">Promedio General</div>
-                        <div style="font-size: 1.8rem; font-weight: bold; color: ${estadoColor};">${prom.toFixed(2)} pts</div>
+                        <div style="font-size: 1.8rem; font-weight: bold; color: ${estadoColor};">${promGen} pts</div>
                     </div>
                     <div style="flex: 1; background: ${esAprobado ? '#f0fdf4' : '#fef2f2'}; border: 1px solid ${esAprobado ? '#bbf7d0' : '#fecaca'}; padding: 1rem; border-radius: 8px; text-align: center;">
                         <div style="font-size: 0.85rem; color: ${esAprobado ? '#166534' : '#991b1b'};">Condición Académica</div>
@@ -267,12 +313,13 @@ function cerrarModal() {
 
 //cargar indicadores de la base de datos para el panel de control
 async function cargarBD() {
-    const totalEstudiantesEl = document.getElementById('totalEstudiantes');
-    const aprobadosEl = document.getElementById('estudiantesPrestados');
-    const reprobadosEl = document.getElementById('estudiantesReprobados');
-    const promedioGeneralEl = document.getElementById('promedioGeneral');
+    const totalEstudiantes = document.getElementById('totalEstudiantes');
+    const totalProfesores = document.getElementById('totalProfesores');
+    const aprobados = document.getElementById('estudiantesPrestados');
+    const reprobados = document.getElementById('estudiantesReprobados');
+    const promedioGeneral = document.getElementById('promedioGeneral');
 
-    if (!totalEstudiantesEl && !aprobadosEl && !reprobadosEl && !promedioGeneralEl) return;
+    if (!totalEstudiantes && !aprobados && !reprobados && !promedioGeneral && !totalProfesores) return;
 
     try {
         const respuesta = await fetch('/api/estudiantes');
@@ -280,25 +327,33 @@ async function cargarBD() {
         const estudiantes = await respuesta.json();
 
         const total = estudiantes.length;
-        if (totalEstudiantesEl) totalEstudiantesEl.textContent = total;
+        if (totalEstudiantes) totalEstudiantes.textContent = total;
 
         const aprobados = estudiantes.filter(e => (Number(e.promedio) || 0) >= 10 || e.estado === "Aprobado").length;
-        if (aprobadosEl) aprobadosEl.textContent = aprobados;
+        if (aprobados) aprobados.textContent = aprobados;
 
         const reprobados = total - aprobados;
-        if (reprobadosEl) reprobadosEl.textContent = reprobados;
+        if (reprobados) reprobados.textContent = reprobados;
 
-        if (promedioGeneralEl) {
+        if (promedioGeneral) {
             if (total === 0) {
-                promedioGeneralEl.textContent = "0.00";
+                promedioGeneral.textContent = "0.00";
             } else {
                 const sumaPromedios = estudiantes.reduce((acc, curr) => acc + (Number(curr.promedio) || 0), 0);
-                promedioGeneralEl.textContent = (sumaPromedios / total).toFixed(2);
+                promedioGeneral.textContent = (sumaPromedios / total).toFixed(2);
             }
         }
+
+        const respuestaProf = await fetch('/api/profesores');
+        if (!respuestaProf.ok) throw new Error('Error al cargar la base de datos de Profesores');
+        const profesores = await respuestaProf.json();
+
+        const totalProf = profesores.length;
+        if (totalProfesores) totalProfesores.textContent = totalProf;
     } catch (error) {
         console.error('Problema al cargar métricas del panel de control:', error);
     }
+
 }
 
 //renderizar minitablas del dashboard
@@ -348,20 +403,33 @@ async function renderizarReporte() {
         const respuesta = await fetch('/api/estudiantes');
         const estudiantes = await respuesta.json();
 
+        if (!Array.isArray(estudiantes) || estudiantes.length === 0) {
+            cuerpo.innerHTML = `
+                <tr>
+                    <td colspan="11" style="text-align: center; padding: 2rem; color: #64748b;">
+                        No hay estudiantes registrados para generar el reporte.
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
         cuerpo.innerHTML = estudiantes.map(est => {
             const prom = Number(est.promedio) || 0;
             const esAprobado = prom >= 10;
+            const nombres = [est.nombre, est.seg_nombre].filter(Boolean).join(' ');
+            const apellidos = [est.apellido, est.seg_apellido].filter(Boolean).join(' ');
             return `
                 <tr>
                     <td>${est.cedula}</td>
-                    <td>${est.nombre}</td>
-                    <td>${est.apellido}</td>
+                    <td>${nombres}</td>
+                    <td>${apellidos}</td>
                     <td>${est.ano || '-'}</td>
                     <td>${est.seccion || '-'}</td>
-                    <td>${est.nota1}</td>
-                    <td>${est.nota2}</td>
-                    <td>${est.nota3}</td>
-                    <td>${est.nota4}</td>
+                    <td>${est.nota1 !== undefined ? est.nota1 : '-'}</td>
+                    <td>${est.nota2 !== undefined ? est.nota2 : '-'}</td>
+                    <td>${est.nota3 !== undefined ? est.nota3 : '-'}</td>
+                    <td>${est.nota4 !== undefined ? est.nota4 : '-'}</td>
                     <td style="font-weight: bold;">${prom.toFixed(2)}</td>
                     <td style="font-weight: bold; color: ${esAprobado ? 'green' : 'red'};">${est.estado || (esAprobado ? "Aprobado" : "Reprobado")}</td>
                 </tr>
@@ -392,6 +460,10 @@ if (document.getElementById('cuerpoTabla') && window.location.pathname.includes(
 }
 
 if (document.getElementById('totalEstudiantes')) {
+    cargarBD();
+}
+
+if (document.getElementById('totalProfesores')) {
     cargarBD();
 }
 

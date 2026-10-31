@@ -34,18 +34,18 @@
             </li>            
             <li class="nav-item">
                 <a href="/listado" class="nav-link">
-                    <svg id="icono" class="w-[34px] h-[34px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M9 8h10M9 12h10M9 16h10M4.99 8H5m-.02 4h.01m0 4H5"/>
+                    <svg id="icono" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-width="2" d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
                     </svg>
-                    Listado Completo
+                    Estudiantes
                 </a>
             </li>
             <li class="nav-item">
-                <a href="/registro" class="nav-link">
-                    <svg id="icono" class="w-[34px] h-[34px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v14m-7-7h14"/>
+                <a href="/listadoProfesores" class="nav-link">
+                    <svg id="icono" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.6144 7.19994c.3479.48981.5999 1.15357.5999 1.80006 0 1.6569-1.3432 3-3 3-1.6569 0-3.00004-1.3431-3.00004-3 0-.67539.22319-1.29865.59983-1.80006M6.21426 6v4m0-4 6.00004-3 6 3-6 2-2.40021-.80006M6.21426 6l3.59983 1.19994M6.21426 19.8013v-2.1525c0-1.6825 1.27251-3.3075 2.95093-3.6488l3.04911 2.9345 3-2.9441c1.7026.3193 3 1.9596 3 3.6584v2.1525c0 .6312-.5373 1.1429-1.2 1.1429H7.41426c-.66274 0-1.2-.5117-1.2-1.1429Z"/>
                     </svg>
-                    Nuevo Estudiante
+                    Profesores
                 </a>
             </li>
         </ul>
@@ -70,7 +70,7 @@
 
         <div class="dashboard-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem;">
                 <div class="stat-card">
-                    <h4>Total Estudiantes</h4>
+                    <h4>Total de Estudiantes</h4>
                     <span style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
                         <p style="font-size: 1.8rem; font-weight: bold;"><span id="totalEstudiantes">0</span></p>
                             <svg id="icono" style="width:30px; height:30px;" class="w-[34px] h-[34px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -80,31 +80,12 @@
                     </span>
                 </div>
                 <div class="stat-card">
-                    <h4>Estudiantes Aprobados</h4>
+                    <h4>Total de Profesores</h4>
                     <span style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
-                        <p style="font-size: 1.8rem; font-weight: bold; color: #16a34a;"><span id="estudiantesPrestados">0</span></p>
-                        <svg id="icono" style="width:30px; height:30px; color: #16a34a;" class="w-[34px] h-[34px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11.917 9.724 16.5 19 7.5"/>
-                        </svg>
-                    </span>
-                </div>
-                <div class="stat-card">
-                    <h4>Estudiantes Reprobados</h4>
-                    <span style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
-                        <p style="font-size: 1.8rem; font-weight: bold; color: #dc2626;"><span id="estudiantesReprobados">0</span></p>
-                        <svg id="icono" style="width:30px; height:30px; color: #dc2626;" class="w-[34px] h-[34px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/>
-                        </svg>
-                    </span>
-                </div>
-                <div class="stat-card">
-                    <h4>Promedio General</h4>
-                    <span style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
-                        <p style="font-size: 1.8rem; font-weight: bold; color: #2563eb;"><span id="promedioGeneral">0</span> pts</p>
-                        <svg id="icono" style="width:30px; height:30px; color: #2563eb;" class="w-[34px] h-[34px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4.5V19a1 1 0 0 0 1 1h15M7 14l4-4 4 4 5-5m0 0h-3.207M20 9v3.207"/>
-                        </svg>
-
+                        <p style="font-size: 1.8rem; font-weight: bold;"><span id="totalProfesores">0</span></p>
+                            <svg id="icono" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.6144 7.19994c.3479.48981.5999 1.15357.5999 1.80006 0 1.6569-1.3432 3-3 3-1.6569 0-3.00004-1.3431-3.00004-3 0-.67539.22319-1.29865.59983-1.80006M6.21426 6v4m0-4 6.00004-3 6 3-6 2-2.40021-.80006M6.21426 6l3.59983 1.19994M6.21426 19.8013v-2.1525c0-1.6825 1.27251-3.3075 2.95093-3.6488l3.04911 2.9345 3-2.9441c1.7026.3193 3 1.9596 3 3.6584v2.1525c0 .6312-.5373 1.1429-1.2 1.1429H7.41426c-.66274 0-1.2-.5117-1.2-1.1429Z"/>
+                            </svg>
                     </span>
                 </div>
         </div>

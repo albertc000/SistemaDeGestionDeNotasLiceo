@@ -26,27 +26,27 @@
 
         <ul class="nav-list">
             <li class="nav-item">
-                <a href="/inicio" class="nav-link">
+                <a href="/inicio" class="nav-link ">
                     <svg id="icono" class="w-[34px] h-[34px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="34" height="34" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m4 12 8-8 8 8M6 10.5V19a1 1 0 0 0 1 1h3v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h3a1 1 0 0 0 1-1v-8.5"/>
                     </svg>
                     Inicio
                 </a>
-            </li>
+            </li>            
             <li class="nav-item">
                 <a href="/listado" class="nav-link">
-                    <svg id="icono" class="w-[34px] h-[34px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M9 8h10M9 12h10M9 16h10M4.99 8H5m-.02 4h.01m0 4H5"/>
+                    <svg id="icono" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-width="2" d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
                     </svg>
-                    Listado Completo
+                    Estudiantes
                 </a>
             </li>
             <li class="nav-item">
-                <a href="/registro" class="nav-link active">
-                    <svg id="icono" class="w-[34px] h-[34px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v14m-7-7h14"/>
+                <a href="/listadoProfesores" class="nav-link">
+                    <svg id="icono" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.6144 7.19994c.3479.48981.5999 1.15357.5999 1.80006 0 1.6569-1.3432 3-3 3-1.6569 0-3.00004-1.3431-3.00004-3 0-.67539.22319-1.29865.59983-1.80006M6.21426 6v4m0-4 6.00004-3 6 3-6 2-2.40021-.80006M6.21426 6l3.59983 1.19994M6.21426 19.8013v-2.1525c0-1.6825 1.27251-3.3075 2.95093-3.6488l3.04911 2.9345 3-2.9441c1.7026.3193 3 1.9596 3 3.6584v2.1525c0 .6312-.5373 1.1429-1.2 1.1429H7.41426c-.66274 0-1.2-.5117-1.2-1.1429Z"/>
                     </svg>
-                    Nuevo Estudiante
+                    Profesores
                 </a>
             </li>
         </ul>
@@ -69,31 +69,56 @@
             </div>
         </header>
 
-        <div class="dashboard-grid2" style="display: flex; gap: 2rem; align-items: flex-start; max-width: 1200px; width: 100%;">
+        <div class="dashboard-grid2" style="display: flex; text-align: center; gap: 2rem; align-items: flex-start ; max-width: 1200px; width: 100%;">
             
-            <div class="stat-card" style="flex: 1; max-width: 700px;">
+            <div class="stat-card3" style="flex: 1; max-width: 700px;">
                 <div id="mensaje-error" style="display: none; padding: 0.8rem; margin-bottom: 1rem; background-color: #fee2e2; color: #991b1b; border-radius: 8px; border: 1px solid #f87171;">
                 </div>
                 <div class="minimalist-form-container">
                     <form action="/nuevoEstudiante" method="post" id="formulario">
                         <h2 style="margin-bottom: 1.5rem; text-align: left; font-size: 1.4rem;">Información del Alumno</h2>
-                    
-                        <div class="form-group">
-                            <label for="cedula" style="margin-bottom: 0.5rem; text-align: left; font-size: 1rem;">Cédula de Identidad</label>
-                            <input type="number" id="cedula" name="cedula" required placeholder="Ej: 30123456">
-                        </div>
                         
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="nombre" style="margin-bottom: 0.5rem; text-align: left; font-size: 1rem;">Nombres</label>
-                                <input type="text" id="nombre" name="nombre" required placeholder="Ej: Juan Andrés">
+                                <label for="cedula" style="margin-bottom: 0.5rem; text-align: left; font-size: 1rem;">Cédula de Identidad</label>
+                                <input type="number" id="cedula" name="cedula" required placeholder="Ej: 30123456">
                             </div>
                             <div class="form-group">
-                                <label for="apellido" style="margin-bottom: 0.5rem; text-align: left; font-size: 1rem;">Apellidos</label>
-                                <input type="text" id="apellido" name="apellido" required placeholder="Ej: Pérez Gómez">
+                                <label for="genero" style="margin-bottom: 0.5rem; text-align: left; font-size: 1rem;">Género</label>
+                                <select id="genero" name="genero">
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
+                                </select>
                             </div>
                         </div>
 
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nombre" style="margin-bottom: 0.5rem; text-align: left; font-size: 1rem;">Primer Nombre</label>
+                                <input type="text" id="nombre" name="nombre" required placeholder="Ej: Juan">
+                            </div>
+                            <div class="form-group">
+                                <label for="segnombre" style="margin-bottom: 0.5rem; text-align: left; font-size: 1rem;">Segundo Nombre</label>
+                                <input type="text" id="segnombre" name="segnombre"  placeholder="Ej: Andrés">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="apellido" style="margin-bottom: 0.5rem; text-align: left; font-size: 1rem;">Apellido</label>
+                                <input type="text" id="apellido" name="apellido" required placeholder="Ej: Pérez">
+                            </div>
+                            <div class="form-group">
+                                <label for="segapellido" style="margin-bottom: 0.5rem; text-align: left; font-size: 1rem;">Segundo Apellido</label>
+                                <input type="text" id="segapellido" name="segapellido" placeholder="Ej: Gómez">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="direccion" style="margin-bottom: 0.5rem; text-align: left; font-size: 1rem;">Dirección de Habitación</label>
+                            <input type="text" id="direccion" name="direccion" placeholder="Ej: Sabana de Mendoza">
+                        </div>
+                            
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="ano" style="margin-bottom: 0.5rem; text-align: left; font-size: 1rem;">Año Escolar</label>
@@ -116,47 +141,8 @@
                             </div>
                         </div>
 
-                        <h3 style="margin-top: 1.5rem; margin-bottom: 1rem; text-align: left; font-size: 1.2rem; border-top: 1px solid #e2e8f0; padding-top: 1rem;">Calificaciones de lapsos (0 a 20 pts)</h3>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="nota1" style="margin-bottom: 0.5rem; text-align: left; font-size: 0.95rem;">Nota 1</label>
-                                <input type="number" id="nota1" name="nota1" min="0" max="20" step="0.1" required value="0" placeholder="0 - 20">
-                            </div>
-                            <div class="form-group">
-                                <label for="nota2" style="margin-bottom: 0.5rem; text-align: left; font-size: 0.95rem;">Nota 2</label>
-                                <input type="number" id="nota2" name="nota2" min="0" max="20" step="0.1" required value="0" placeholder="0 - 20">
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="nota3" style="margin-bottom: 0.5rem; text-align: left; font-size: 0.95rem;">Nota 3</label>
-                                <input type="number" id="nota3" name="nota3" min="0" max="20" step="0.1" required value="0" placeholder="0 - 20">
-                            </div>
-                            <div class="form-group">
-                                <label for="nota4" style="margin-bottom: 0.5rem; text-align: left; font-size: 0.95rem;">Nota 4</label>
-                                <input type="number" id="nota4" name="nota4" min="0" max="20" step="0.1" required value="0" placeholder="0 - 20">
-                            </div>
-                        </div>
-
                         <button type="submit" class="submit-btn" style="margin-top: 1rem;">Registrar Estudiante</button>
                     </form>
-                </div>
-            </div>
-
-            <div class="stat-card" style="width: 320px; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; padding: 2rem; background: #f8fafc; border-radius: 12px; border: 1px solid #cbd5e1;">
-                <h4 style="margin-bottom: 1.2rem; text-align: left; color: #334155; font-size: 1.1rem;">Criterio de Evaluación</h4>
-                <p style="font-size: 0.9rem; color: #64748b; line-height: 1.5; margin-bottom: 1rem;">
-                    El sistema calcula automáticamente el promedio general sumando las 4 calificaciones introducidas y dividiendo entre 4.
-                </p>
-                <div style="background: white; padding: 1rem; border-radius: 8px; width: 100%; border: 1px solid #e2e8f0; margin-bottom: 1rem;">
-                    <strong style="color: #16a34a; font-size: 0.95rem;">Aprobado:</strong>
-                    <span style="font-size: 0.9rem; color: #475569;"> Promedio &ge; 10 pts</span>
-                </div>
-                <div style="background: white; padding: 1rem; border-radius: 8px; width: 100%; border: 1px solid #e2e8f0;">
-                    <strong style="color: #dc2626; font-size: 0.95rem;">Reprobado:</strong>
-                    <span style="font-size: 0.9rem; color: #475569;"> Promedio &lt; 10 pts</span>
                 </div>
             </div>
 
