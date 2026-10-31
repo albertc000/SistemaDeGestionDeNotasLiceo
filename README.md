@@ -125,4 +125,10 @@ Al arrancar el servidor por primera vez, el sistema sincroniza automáticamente 
 
 ## Descripción del Proyecto Completo
 
+<<<<<<< HEAD
 Nuestro Proyecto consistiría en una Aplicación Web para el Registro y Control de Notas del Liceo "Andrés Bello", permitiendo entrar tanto a personal Administrativo para asignación de estudiantes y profesores, así como dictar inicios y finales de lapsos; personal Docente que subirá las notas correspondientes a sus materias y estudiantes al sistema; y al Departamento de Control de Estudio quien podrá hacer seguimiento de dichas notas, así como generar reportes y boletines respectivamente.
+=======
+Nuestro Proyecto consistiría en una Aplicación Web para el Registro y Control de Notas del Liceo "Andrés Bello", permitiendo entrar tanto a personal Administrativo para asignación de estudiantes y profesores, así como dictar inicios y finales de lapsos; personal Docente que subirá las notas correspondientes a sus materias y estudiantes al sistema; y al Departamento de Control de Estudio quien podrá hacer seguimiento de dichas notas, así como generar reportes y boletines respectivamente.
+
+
+>>>>>>> 4fc14cdbdb9d94f44c1be1cac53b05c932f6d332
