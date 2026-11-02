@@ -156,34 +156,42 @@ router.post('/nuevoEstudiante', upload.none(), verificarAutenticacion, async (re
             telefono: telf || telefono || ''
         });
 
-        const seccionBD = await req.db.query(
-            "SELECT s.id, s.id_grado FROM secciones s JOIN grados g ON s.id_grado = g.id WHERE g.nombre = ? AND s.letra = ? LIMIT 1",
-            { values: [ano, seccion] }
-        );
-        const periodoActivo = await req.db.query("SELECT id FROM periodos_academicos WHERE activo = 1 LIMIT 1");
+        const tablaGrados = req.db.tabla('grados');
+        const tablaSecciones = req.db.tabla('secciones');
+        const tablaPeriodos = req.db.tabla('periodos_academicos');
+        const tablaInscripciones = req.db.tabla('inscripciones');
+        const tablaMaterias = req.db.tabla('materias');
+        const tablaCalificaciones = req.db.tabla('calificaciones');
 
-        if (seccionBD.length > 0 && periodoActivo.length > 0) {
-            const resIns = await req.db.query(
-                "INSERT INTO inscripciones (cedula_estudiante, id_seccion, id_periodo) VALUES (?, ?, ?)",
-                { values: [cedulaEst, seccionBD[0].id, periodoActivo[0].id] }
-            );
+        const grado = await tablaGrados.selectOne({ where: { nombre: ano } });
+        const seccionBD = grado 
+            ? await tablaSecciones.selectOne({ where: { id_grado: grado.id, letra: seccion } })
+            : null;
+
+        const periodoActivo = await tablaPeriodos.selectOne({ where: { activo: 1 } });
+
+        if (seccionBD && periodoActivo) {
+            // Insertar inscripción
+            const resIns = await tablaInscripciones.insert({
+                cedula_estudiante: cedulaEst,
+                id_seccion: seccionBD.id,
+                id_periodo: periodoActivo.id
+            });
             const idInscripcion = resIns.insertId;
-
-            // Inicializar las 4 calificaciones de cada materia del grado en 0
-            const materias = await req.db.query(
-                "SELECT id FROM materias WHERE id_grado = ?",
-                { values: [seccionBD[0].id_grado] }
-            );
+            //Obtener materias del grado
+            const materias = await tablaMaterias.select({ where: { id_grado: seccionBD.id_grado } });
+            //Inicializar las calificaciones
             for (const mat of materias) {
                 for (let lapso = 1; lapso <= 4; lapso++) {
-                    await req.db.query(
-                        "INSERT INTO calificaciones (id_inscripcion, id_materia, lapso, nota) VALUES (?, ?, ?, 0)",
-                        { values: [idInscripcion, mat.id, lapso] }
-                    );
+                    await tablaCalificaciones.insert({
+                        id_inscripcion: idInscripcion,
+                        id_materia: mat.id,
+                        lapso: lapso,
+                        nota: 0
+                    });
                 }
             }
         }
-
         return res.json({ exito: true, mensaje: 'Estudiante registrado con éxito' });
     } 
     catch (error) {
@@ -229,36 +237,36 @@ router.put('/editarEstudiante', upload.none(), verificarAutenticacion, async (re
         }, { cedula });
 
         //gestionar inscripción
-        let idInscripcion = null;
-        const inscripcionExistente = await req.db.query(
-            "SELECT id FROM inscripciones WHERE cedula_estudiante = ? LIMIT 1",
-            { values: [cedula] }
-        );
 
-        const seccionBD = await req.db.query(
-            "SELECT s.id, s.id_grado FROM secciones s JOIN grados g ON s.id_grado = g.id WHERE g.nombre = ? AND s.letra = ? LIMIT 1",
-            { values: [ano, seccion] }
-        );
+        const tablaGrados = req.db.tabla('grados');
+        const tablaSecciones = req.db.tabla('secciones');
+        const tablaInscripciones = req.db.tabla('inscripciones');
+        const tablaPeriodos = req.db.tabla('periodos_academicos');
+        const tablaCalificaciones = req.db.tabla('calificaciones');
 
-        if (seccionBD.length > 0) {
-            const idSeccion = seccionBD[0].id;
+        //Buscar seccion
+        const grado = await tablaGrados.selectOne({ where: { nombre: ano } });
+        const seccionBD = grado 
+            ? await tablaSecciones.selectOne({ where: { id_grado: grado.id, letra: seccion } })
+            : null;
 
-            if (inscripcionExistente.length > 0) {
-                idInscripcion = inscripcionExistente[0].id;
-                await req.db.query(
-                    "UPDATE inscripciones SET id_seccion = ? WHERE id = ?",
-                    { values: [idSeccion, idInscripcion] }
-                );
+        if (seccionBD) {
+            const idSeccion = seccionBD.id;
+            const inscripcionExistente = await tablaInscripciones.selectOne({ where: { cedula_estudiante: cedula } });
+            if (inscripcionExistente) {
+                idInscripcion = inscripcionExistente.id;
+                // Actualizar sección con update()
+                await tablaInscripciones.update({ id_seccion: idSeccion }, { id: idInscripcion });
             } else {
-                const periodoActivo = await req.db.query("SELECT id FROM periodos_academicos WHERE activo = 1 LIMIT 1");
-                const resIns = await req.db.query(
-                    "INSERT INTO inscripciones (cedula_estudiante, id_seccion, id_periodo) VALUES (?, ?, ?)",
-                    { values: [cedula, idSeccion, periodoActivo[0].id] }
-                );
+                const periodoActivo = await tablaPeriodos.selectOne({ where: { activo: 1 } });
+                const resIns = await tablaInscripciones.insert({
+                    cedula_estudiante: cedula,
+                    id_seccion: idSeccion,
+                    id_periodo: periodoActivo ? periodoActivo.id : 1
+                });
                 idInscripcion = resIns.insertId;
             }
-
-            //guardar las 4 notas por materia enviadas desde el formulario
+            // Guardar o actualizar las calificaciones
             if (idInscripcion) {
                 for (const key of Object.keys(req.body)) {
                     const match = key.match(/^nota_(\d+)_([1-4])$/);
@@ -267,23 +275,22 @@ router.put('/editarEstudiante', upload.none(), verificarAutenticacion, async (re
                         const lapso = parseInt(match[2]);
                         const val = parseFloat(req.body[key]);
                         const notaFinal = isNaN(val) ? 0 : Math.min(20, Math.max(0, val));
-
-                        //verificar si existe la nota de este lapso
-                        const existeNota = await req.db.query(
-                            "SELECT id FROM calificaciones WHERE id_inscripcion = ? AND id_materia = ? AND lapso = ? LIMIT 1",
-                            { values: [idInscripcion, idMateria, lapso] }
-                        );
-
-                        if (existeNota.length > 0) {
-                            await req.db.query(
-                                "UPDATE calificaciones SET nota = ? WHERE id = ?",
-                                { values: [notaFinal, existeNota[0].id] }
+                        // Verificar si ya existe esa nota
+                        const existeNota = await tablaCalificaciones.selectOne({
+                            where: { id_inscripcion: idInscripcion, id_materia: idMateria, lapso: lapso }
+                        });
+                        if (existeNota) {
+                            await tablaCalificaciones.update(
+                                { nota: notaFinal }, 
+                                { id: existeNota.id }
                             );
                         } else {
-                            await req.db.query(
-                                "INSERT INTO calificaciones (id_inscripcion, id_materia, lapso, nota) VALUES (?, ?, ?, ?)",
-                                { values: [idInscripcion, idMateria, lapso, notaFinal] }
-                            );
+                            await tablaCalificaciones.insert({
+                                id_inscripcion: idInscripcion,
+                                id_materia: idMateria,
+                                lapso: lapso,
+                                nota: notaFinal
+                            });
                         }
                     }
                 }
@@ -303,69 +310,57 @@ router.post('/busquedaEstudiante', upload.none(), verificarAutenticacion, async 
     try {
         const cedula = req.body.cedula;
         if (!cedula) return res.redirect('/listado');
-
-        //obtener datos del estudiante y su inscripción actual
-        const sqlEstudiante = `
-            SELECT 
-                e.cedula, e.nombre, e.seg_nombre, e.apellido, e.seg_apellido,
-                e.genero, e.direccion, e.telefono,
-                i.id AS id_inscripcion,
-                COALESCE(g.nombre, '1er Año') AS ano,
-                COALESCE(s.letra, 'A') AS seccion,
-                COALESCE(g.id, 1) AS id_grado
-            FROM estudiantes e
-            LEFT JOIN inscripciones i ON e.cedula = i.cedula_estudiante
-            LEFT JOIN secciones s ON i.id_seccion = s.id
-            LEFT JOIN grados g ON s.id_grado = g.id
-            WHERE e.cedula = ?
-            LIMIT 1
-        `;
-        const resultados = await req.db.query(sqlEstudiante, { values: [cedula] });
-        if (!resultados || resultados.length === 0) {
+        // 1. Buscar al estudiante con mysql-tab
+        const alumno = await req.db.tabla('estudiantes').selectOne({ where: { cedula } });
+        if (!alumno) {
             return res.redirect('/listado');
         }
-        const alumno = resultados[0];
-
-        //obtener materias del grado del estudiante
-        const materias = await req.db.query(
-            "SELECT id, nombre FROM materias WHERE id_grado = ? ORDER BY id ASC",
-            { values: [alumno.id_grado] }
-        );
-
-        //obtener calificaciones existentes (lapso 1, 2, 3, 4)
+        // 2. Buscar su inscripción
+        const inscripcion = await req.db.tabla('inscripciones').selectOne({ where: { cedula_estudiante: cedula } });
+        // 3. Buscar su sección y grado si está inscrito
+        let seccion = null;
+        let grado = null;
+        if (inscripcion) {
+            seccion = await req.db.tabla('secciones').selectOne({ where: { id: inscripcion.id_seccion } });
+            if (seccion) {
+                grado = await req.db.tabla('grados').selectOne({ where: { id: seccion.id_grado } });
+            }
+        }
+        // 4. Asignar los datos para la vista (con valores por defecto)
+        alumno.id_inscripcion = inscripcion ? inscripcion.id : null;
+        alumno.ano = grado ? grado.nombre : '1er Año';
+        alumno.seccion = seccion ? seccion.letra : 'A';
+        alumno.id_grado = grado ? grado.id : 1;
+        // 5. Materias y calificaciones también con mysql-tab
+        const materias = await req.db.tabla('materias').select({
+            where: { id_grado: alumno.id_grado },
+            order: 'id ASC'
+        });
         let calificaciones = [];
         if (alumno.id_inscripcion) {
-            calificaciones = await req.db.query(
-                "SELECT id_materia, lapso, nota FROM calificaciones WHERE id_inscripcion = ?",
-                { values: [alumno.id_inscripcion] }
-            );
+            calificaciones = await req.db.tabla('calificaciones').select({
+                where: { id_inscripcion: alumno.id_inscripcion }
+            });
         }
-
-        //mapear materias con sus 4 notas
+        // Mapeo a materiasConNotas (igual que antes)...
         const materiasConNotas = materias.map(mat => {
             const notasMat = calificaciones.filter(c => c.id_materia === mat.id);
             const n1 = notasMat.find(c => c.lapso === 1);
             const n2 = notasMat.find(c => c.lapso === 2);
             const n3 = notasMat.find(c => c.lapso === 3);
             const n4 = notasMat.find(c => c.lapso === 4);
-
             const nota1 = n1 ? Number(n1.nota) : 0;
             const nota2 = n2 ? Number(n2.nota) : 0;
             const nota3 = n3 ? Number(n3.nota) : 0;
             const nota4 = n4 ? Number(n4.nota) : 0;
             const promedioMat = parseFloat(((nota1 + nota2 + nota3 + nota4) / 4).toFixed(2));
-
             return {
                 id: mat.id,
                 nombre: mat.nombre,
-                nota1,
-                nota2,
-                nota3,
-                nota4,
+                nota1, nota2, nota3, nota4,
                 promedio: promedioMat
             };
         });
-
         res.render('formModificar', {
             ...alumno,
             materiasConNotas
@@ -457,22 +452,23 @@ router.get('/api/calificaciones/:cedula', verificarAutenticacion, async (req, re
             return res.status(404).json({ exito: false, mensaje: 'Estudiante no encontrado' });
         }
         //buscar las materias que le tocan según su grado y las notas que tenga registradas
-        const sql = `
-            SELECT 
-                m.id AS materia_id,
-                m.nombre AS materia,
-                c.lapso,
-                c.nota
-            FROM inscripciones i
-            JOIN secciones s ON i.id_seccion = s.id
-            JOIN grados g ON s.id_grado = g.id
-            JOIN materias m ON m.id_grado = g.id
-            JOIN periodos_academicos p ON i.id_periodo = p.id AND p.activo = 1
-            LEFT JOIN calificaciones c ON c.id_inscripcion = i.id AND c.id_materia = m.id
-            WHERE i.cedula_estudiante = ?
-            ORDER BY m.nombre ASC, c.lapso ASC
-        `;
-        const filas = await req.db.query(sql, { values: [cedula] });
+        const filas = await req.db.tabla('inscripciones').select({
+            campos: [
+                "materias.id AS materia_id",
+                "materias.nombre AS materia",
+                "calificaciones.lapso",
+                "calificaciones.nota"
+            ],
+            joins: {
+                "=secciones": "inscripciones.id_seccion = secciones.id",
+                "=grados": "secciones.id_grado = grados.id",
+                "=materias": "materias.id_grado = grados.id",
+                "=periodos_academicos": "inscripciones.id_periodo = periodos_academicos.id AND periodos_academicos.activo = 1",
+                ">calificaciones": "calificaciones.id_inscripcion = inscripciones.id AND calificaciones.id_materia = materias.id"
+            },
+            where: { "inscripciones.cedula_estudiante": cedula },
+            order: "materias.nombre ASC, calificaciones.lapso ASC"
+        });
         
         //agrupamos las notas por materia para el frontend
         const boletin = {};
