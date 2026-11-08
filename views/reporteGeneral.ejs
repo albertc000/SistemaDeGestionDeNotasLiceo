@@ -27,7 +27,7 @@
                         clip-rule="evenodd" />
                 </svg>
             </div>
-            <h2>Gestión Escolar</h2>
+            <h2>Liceo "Andres Bello"</h2>
         </a>
 
         <ul class="nav-list">
@@ -41,14 +41,34 @@
                     Inicio
                 </a>
             </li>
-            <li class="nav-item ac">
-                <a href="/listado" class="nav-link active">
-                    <svg id="icono" class="w-[34px] h-[34px] text-gray-800 dark:text-white" aria-hidden="true"
+            <li class="nav-item">
+                <a href="/listado" class="nav-link">
+                    <svg id="icono" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
-                            d="M9 8h10M9 12h10M9 16h10M4.99 8H5m-.02 4h.01m0 4H5" />
+                        <path stroke="currentColor" stroke-width="2"
+                            d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                     </svg>
-                    Listado Completo
+                    Estudiantes
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/listadoProfesores" class="nav-link">
+                    <svg id="icono" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M14.6144 7.19994c.3479.48981.5999 1.15357.5999 1.80006 0 1.6569-1.3432 3-3 3-1.6569 0-3.00004-1.3431-3.00004-3 0-.67539.22319-1.29865.59983-1.80006M6.21426 6v4m0-4 6.00004-3 6 3-6 2-2.40021-.80006M6.21426 6l3.59983 1.19994M6.21426 19.8013v-2.1525c0-1.6825 1.27251-3.3075 2.95093-3.6488l3.04911 2.9345 3-2.9441c1.7026.3193 3 1.9596 3 3.6584v2.1525c0 .6312-.5373 1.1429-1.2 1.1429H7.41426c-.66274 0-1.2-.5117-1.2-1.1429Z" />
+                    </svg>
+                    Profesores
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/secciones" class="nav-link">
+                    <svg id="icono" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 19V6a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v13M3 19h6m-6 0a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1m0 0V9a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v10M9 19h6m-6 0a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1m0 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v15m-6 0h6m-6 0a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1" />
+                    </svg>
+                    Secciones
                 </a>
             </li>
         </ul>
@@ -64,46 +84,115 @@
             </a>
         </div>
     </aside>
+
     <main class="main-content">
-        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <header
+            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
             <div>
-                <h1 style="font-size: 2rem; background-clip: unset; -webkit-background-clip: unset; -webkit-text-fill-color: initial; background: none;">Reporte General de Calificaciones</h1>
+                <h1
+                    style="font-size: 2rem; background-clip: unset; -webkit-background-clip: unset; -webkit-text-fill-color: initial; background: none;">
+                    <%= typeof titulo !=='undefined' ? titulo : 'Reporte General de Calificaciones' %>
+                </h1>
             </div>
+            <% if (typeof returnUrl !=='undefined' ) { %>
+                <div>
+                    <a href="<%= returnUrl %>" class="btn-secondary-link">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        <span>Volver</span>
+                    </a>
+                </div>
+                <% } %>
         </header>
 
-        <div class="component-wrapper">
+        <div class="component-wrapper" style="max-width: 100%; width: 100%;">
             <button class="btn-cart" onclick="imprimirTabla()" style="padding: 0.5rem 1rem;">
                 <div class="btn-text-content">
-                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M16.444 18H19a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h2.556M17 11V5a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v6h10ZM7 15h10v4a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-4Z"/>
+                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linejoin="round" stroke-width="2"
+                            d="M16.444 18H19a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h2.556M17 11V5a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v6h10ZM7 15h10v4a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-4Z" />
                     </svg>
 
                     <span>Imprimir Reporte</span>
                 </div>
             </button>
             <br><br>
-            <div class="table-container">
+            <div class="table-container" style="overflow-x: auto; width: 100%;">
                 <div class="table-bordered">
                     <div id="impresion">
-                        <h2 style="margin-bottom: 1rem; text-align: center;">Nómina General de Estudiantes y Rendimiento Académico</h2>
-                        <table id="dataTable">
+                        <h2 style="margin-bottom: 1rem; text-align: center;">
+                            <%= typeof subtitulo !=='undefined' ? subtitulo
+                                : 'Nómina General de Estudiantes y Rendimiento Académico' %>
+                        </h2>
+                        <table id="dataTable" style="width: 100%;">
                             <thead>
                                 <tr>
-                                    <th scope="col">Cédula</th>
-                                    <th scope="col">Nombres</th>
-                                    <th scope="col">Apellidos</th>
-                                    <th scope="col">Año</th>
-                                    <th scope="col">Sección</th>
-                                    <th scope="col">N1</th>
-                                    <th scope="col">N2</th>
-                                    <th scope="col">N3</th>
-                                    <th scope="col">N4</th>
-                                    <th scope="col">Promedio</th>
-                                    <th scope="col">Estado</th>
+                                    <th scope="col" style="white-space: nowrap;">Cédula</th>
+                                    <th scope="col" style="white-space: nowrap;">Nombres</th>
+                                    <th scope="col" style="white-space: nowrap;">Apellidos</th>
+                                    <th scope="col" style="text-align: center; white-space: nowrap;">Año</th>
+                                    <th scope="col" style="text-align: center; white-space: nowrap;">Sección</th>
+                                    <% if (typeof materias !=='undefined' && materias.length> 0) { %>
+                                        <% materias.forEach(mat=> { %>
+                                            <th scope="col" style="text-align: center; white-space: nowrap;">
+                                                <%= mat %>
+                                            </th>
+                                            <% }); %>
+                                                <% } %>
+                                                    <th scope="col" style="text-align: center; white-space: nowrap;">
+                                                        Promedio</th>
+                                                    <th scope="col" style="text-align: center; white-space: nowrap;">
+                                                        Estado</th>
                                 </tr>
                             </thead>
                             <tbody id="cuerpoTablaReporte">
-
+                                <% if (typeof estudiantes !=='undefined' && estudiantes.length> 0) { %>
+                                    <% estudiantes.forEach(est=> { %>
+                                        <tr>
+                                            <td style="white-space: nowrap;">
+                                                <%= est.cedula %>
+                                            </td>
+                                            <td>
+                                                <%= [est.nombre, est.seg_nombre].filter(Boolean).join(' ') %>
+                                            </td>
+                                            <td>
+                                                <%= [est.apellido, est.seg_apellido].filter(Boolean).join(' ') %>
+                                            </td>
+                                            <td style="text-align: center; white-space: nowrap;">
+                                                <%= est.ano || ' -' %>
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <%= est.seccion || '-' %>
+                                            </td>
+                                            <% if (typeof materias !=='undefined' && materias.length> 0) { %>
+                                                <% materias.forEach(mat=> { %>
+                                                    <% const notaMat=(est.promediosMateria && est.promediosMateria[mat]
+                                                        !==undefined) ? est.promediosMateria[mat] : '-' ; %>
+                                                        <td style="text-align: center; font-weight: 500;">
+                                                            <%= notaMat %>
+                                                        </td>
+                                                        <% }); %>
+                                                            <% } %>
+                                                                <td style="text-align: center; font-weight: bold;">
+                                                                    <%= est.promedio %>
+                                                                </td>
+                                                                <td class="<%= est.estado === 'Aprobado' ? 'color-aprobado' : (est.estado === 'Sin evaluar' ? 'color-evaluar' : 'color-reprobado') %>"
+                                                                    style="text-align: center; font-weight: bold;">
+                                                                    <%= est.estado %>
+                                                                </td>
+                                        </tr>
+                                        <% }) %>
+                                            <% } else if (typeof estudiantes !=='undefined' ) { %>
+                                                <tr>
+                                                    <td colspan="<%= (typeof materias !== 'undefined' ? materias.length : 0) + 7 %>"
+                                                        style="text-align: center; padding: 2rem; color: #64748b;">
+                                                        No hay estudiantes registrados para generar el reporte.
+                                                    </td>
+                                                </tr>
+                                                <% } %>
                             </tbody>
                         </table>
                     </div>

@@ -53,6 +53,17 @@ CREATE TABLE IF NOT EXISTS `profesores` (
   PRIMARY KEY (`cedula`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- asignaciones de profesores
+CREATE TABLE IF NOT EXISTS `profesor_asignaciones` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `cedula_profesor` VARCHAR(45) NOT NULL,
+  `id_materia` INT NOT NULL,
+  `id_seccion` INT NOT NULL,
+  FOREIGN KEY (`cedula_profesor`) REFERENCES `profesores`(`cedula`) ON DELETE CASCADE,
+  FOREIGN KEY (`id_materia`) REFERENCES `materias`(`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`id_seccion`) REFERENCES `secciones`(`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 -- Nota: Al iniciar el servidor Node.js por primera vez, el usuario administrador
 -- ("admin" con contraseña "admin") se inicializa de forma automática en la tabla `usuarios`.
 

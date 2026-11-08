@@ -1,17 +1,12 @@
 // Scripts para renderizar la base de datos de estudiantes y calificaciones
 
 // Funciones de la tabla principales
-async function editarEstudiante(cedula) {
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = '/busquedaEstudiante';
-    const input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = 'cedula';
-    input.value = cedula;
-    form.appendChild(input);
-    document.body.appendChild(form);
-    form.submit();
+function editarEstudiante(cedula) {
+    window.location.href = `/estudiante/${cedula}/editar`;
+}
+
+function irACalificaciones(cedula) {
+    window.location.href = `/estudiante/${cedula}/notas`;
 }
 
 let listaCompletaEstudiantes = [];
@@ -27,7 +22,6 @@ async function iniciarFiltrosSelect() {
         console.error("Error al cargar estudiantes:", error);
     }
 }
-
 
 
 //funcion que se ejecuta cada vez que cambia el año o la seccion
@@ -87,28 +81,25 @@ function renderizarFilas(estudiantes) {
     cuerpo.innerHTML = estudiantes.map(est => {
         const prom = Number(est.promedio) || 0;
         const esAprobado = est.estado === "Aprobado" || prom >= 10;
-        const colorEstado = esAprobado ? "color: #16a34a; font-weight: bold;" : "color: #dc2626; font-weight: bold;";
-        const badgeBg = esAprobado 
-            ? "background-color: #dcfce7; border: 1px solid #86efac; padding: 4px 8px; border-radius: 6px;" 
-            : "background-color: #fee2e2; border: 1px solid #fca5a5; padding: 4px 8px; border-radius: 6px;";
+        const colorEstado = esAprobado ? "color: #16a34a; font-weight: 600;" : "color: #dc2626; font-weight: 600;";
         return `
             <tr>
                 <td style="font-weight: 500;">${est.cedula}</td>
                 <td style="font-weight: 600;">${est.nombre} ${est.seg_nombre} ${est.apellido} ${est.seg_apellido}</td>
                 <td>${est.ano || '-'}</td>
                 <td>${est.seccion || '-'}</td>
-                <td><span style="${colorEstado} ${badgeBg}">${est.estado || (esAprobado ? "Aprobado" : "Reprobado")}</span></td>
+                <td><span style="${colorEstado}">${est.estado || (esAprobado ? "Aprobado" : "Reprobado")}</span></td>
                 <td class="cell-actions">
-                    <div class="actions-container" style="display: flex; gap: 0.4rem;">
-                        <button class="action-button btn-pres" onclick="abrirModalDetalle('${est.cedula}')" title="Ver Boletín de Notas">
+                    <div class="actions-container" style="display: flex; justify-content: flex-end; gap: 0.4rem;">
+                        <button class="action-button btn-pres" onclick="irACalificaciones('${est.cedula}')" title="Gestionar Calificaciones">
                             <svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 3v4a1 1 0 0 1-1 1H5m14-4v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7.414a1 1 0 0 1 .293-.707l4.414-4.414A1 1 0 0 1 10 2h8a1 1 0 0 1 1 1Z"/>
                             </svg>
                         </button>
-                        <button class="action-button btn-edit" onclick="editarEstudiante('${est.cedula}')" title="Modificar">
-                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"/>
-                                <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                        <button class="action-button btn-edit" onclick="editarEstudiante('${est.cedula}')" title="Modificar Datos Personales">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
                             </svg>
                         </button>
                     </div>
@@ -158,8 +149,7 @@ async function renderizarEstudiantes() {
         cuerpo.innerHTML = estudiantes.map(est => {
             const prom = Number(est.promedio) || 0;
             const esAprobado = est.estado === "Aprobado" || prom >= 10;
-            const colorEstado = esAprobado ? "color: #16a34a; font-weight: bold;" : "color: #dc2626; font-weight: bold;";
-            const badgeBg = esAprobado ? "background-color: #dcfce7; border: 1px solid #86efac; padding: 4px 8px; border-radius: 6px;" : "background-color: #fee2e2; border: 1px solid #fca5a5; padding: 4px 8px; border-radius: 6px;";
+            const colorEstado = esAprobado ? "color: #16a34a; font-weight: 600;" : "color: #dc2626; font-weight: 600;";
 
             return `
                 <tr>
@@ -167,16 +157,19 @@ async function renderizarEstudiantes() {
                     <td style="font-weight: 600;">${est.nombre} ${est.apellido}</td>
                     <td>${est.ano || '-'}</td>
                     <td>${est.seccion || '-'}</td>
-                    <td><span style="${colorEstado} ${badgeBg}">${est.estado || (esAprobado ? "Aprobado" : "Reprobado")}</span></td>
+                    <td><span style="${colorEstado}">${est.estado || (esAprobado ? "Aprobado" : "Reprobado")}</span></td>
                     <td class="cell-actions">
-                        <div class="actions-container" style="display: flex; gap: 0.4rem;">
-                            <button class="action-button btn-pres" onclick="abrirModalDetalle('${est.cedula}')" title="Ver Boletín de Notas">
+                        <div class="actions-container" style="display: flex; justify-content: flex-end; gap: 0.4rem;">
+                            <button class="action-button btn-pres" onclick="irACalificaciones('${est.cedula}')" title="Gestionar Calificaciones">
                                 <svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 3v4a1 1 0 0 1-1 1H5m14-4v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7.414a1 1 0 0 1 .293-.707l4.414-4.414A1 1 0 0 1 10 2h8a1 1 0 0 1 1 1Z"/>
                                 </svg>
                             </button>
-                            <button class="action-button btn-edit" onclick="editarEstudiante('${est.cedula}')" title="Ver">
-                                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"> <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"/> <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/> </svg>
+                            <button class="action-button btn-edit" onclick="editarEstudiante('${est.cedula}')" title="Modificar Datos Personales">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                </svg>
                             </button>
                         </div>
                     </td>
@@ -215,96 +208,7 @@ if (input) {
 }
 
 //modal boleta
-async function abrirModalDetalle(cedula) {
-    try {
-        const respuesta = await fetch(`/api/calificaciones/${cedula}`);
-        const data = await respuesta.json();
 
-        if (!data.exito) {
-            alert(data.mensaje || "No se pudo cargar el boletín.");
-            return;
-        }
-
-        const est = data.estudiante;
-        const materias = data.materias || [];
-
-        const modalTitulo = document.getElementById('modalTitulo');
-        const modalSubtitulo = document.getElementById('modalSubtitulo');
-        const contenido = document.getElementById('detalleEstudianteContenido');
-
-        if (modalTitulo) modalTitulo.textContent = `Boletín: ${est.nombre}`;
-        if (modalSubtitulo) modalSubtitulo.textContent = `Cédula: V-${est.cedula}`;
-
-        // Calcular promedio general
-        let sumaPromedios = 0;
-        let cantMaterias = 0;
-        materias.forEach(m => {
-            sumaPromedios += Number(m.promedio) || 0;
-            cantMaterias++;
-        });
-
-        const promGen = cantMaterias > 0 ? (sumaPromedios / cantMaterias).toFixed(2) : "0.00";
-        const esAprobado = Number(promGen) >= 10;
-        const estadoTexto = esAprobado ? "Aprobado" : "Reprobado";
-        const estadoColor = esAprobado ? "#16a34a" : "#dc2626";
-
-        if (contenido) {
-            contenido.innerHTML = `
-                <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0; overflow-x: auto;">
-                    <h4 style="margin-bottom: 0.8rem; color: #334155; font-size: 1.1rem;">Calificaciones por Materia (Evaluaciones 1 a 4)</h4>
-                    <table style="width: 100%; border-collapse: collapse; text-align: left; background: white; border-radius: 6px; overflow: hidden; font-size: 0.95rem;">
-                        <thead>
-                            <tr style="background: #f1f5f9; border-bottom: 2px solid #cbd5e1;">
-                                <th style="padding: 10px;">Asignatura</th>
-                                <th style="padding: 10px; text-align: center;">Nota 1</th>
-                                <th style="padding: 10px; text-align: center;">Nota 2</th>
-                                <th style="padding: 10px; text-align: center;">Nota 3</th>
-                                <th style="padding: 10px; text-align: center;">Nota 4</th>
-                                <th style="padding: 10px; text-align: right;">Promedio</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${materias.length > 0 ? materias.map(m => `
-                                <tr style="border-bottom: 1px solid #f1f5f9;">
-                                    <td style="padding: 10px; font-weight: 600;">${m.materia}</td>
-                                    <td style="padding: 10px; text-align: center;">${m.lapso1 !== null ? m.lapso1 : '-'}</td>
-                                    <td style="padding: 10px; text-align: center;">${m.lapso2 !== null ? m.lapso2 : '-'}</td>
-                                    <td style="padding: 10px; text-align: center;">${m.lapso3 !== null ? m.lapso3 : '-'}</td>
-                                    <td style="padding: 10px; text-align: center;">${m.lapso4 !== null ? m.lapso4 : '-'}</td>
-                                    <td style="padding: 10px; text-align: right; font-weight: bold; color: ${m.promedio >= 10 ? '#16a34a' : '#dc2626'};">
-                                        ${m.promedio} pts
-                                    </td>
-                                </tr>
-                            `).join('') : `
-                                <tr>
-                                    <td colspan="6" style="padding: 1.5rem; text-align: center; color: #64748b;">
-                                        No hay materias ni calificaciones registradas para este estudiante.
-                                    </td>
-                                </tr>
-                            `}
-                        </tbody>
-                    </table>
-                </div>
-
-                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
-                    <div style="flex: 1; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 1rem; border-radius: 8px; text-align: center;">
-                        <div style="font-size: 0.85rem; color: #166534;">Promedio General</div>
-                        <div style="font-size: 1.8rem; font-weight: bold; color: ${estadoColor};">${promGen} pts</div>
-                    </div>
-                    <div style="flex: 1; background: ${esAprobado ? '#f0fdf4' : '#fef2f2'}; border: 1px solid ${esAprobado ? '#bbf7d0' : '#fecaca'}; padding: 1rem; border-radius: 8px; text-align: center;">
-                        <div style="font-size: 0.85rem; color: ${esAprobado ? '#166534' : '#991b1b'};">Condición Académica</div>
-                        <div style="font-size: 1.4rem; font-weight: bold; color: ${estadoColor}; margin-top: 0.3rem;">${estadoTexto}</div>
-                    </div>
-                </div>
-            `;
-        }
-
-        const modal = document.getElementById('modalDetalle');
-        if (modal) modal.style.display = 'flex';
-    } catch (err) {
-        console.error("Error al abrir modal:", err);
-    }
-}
 
 function cerrarModal() {
     const modal = document.getElementById('modalDetalle');
@@ -395,50 +299,7 @@ async function renderizarListas() {
 }
 
 //renderizar reporte imprimible
-async function renderizarReporte() {
-    const cuerpo = document.getElementById('cuerpoTablaReporte');
-    if (!cuerpo) return;
 
-    try {
-        const respuesta = await fetch('/api/estudiantes');
-        const estudiantes = await respuesta.json();
-
-        if (!Array.isArray(estudiantes) || estudiantes.length === 0) {
-            cuerpo.innerHTML = `
-                <tr>
-                    <td colspan="11" style="text-align: center; padding: 2rem; color: #64748b;">
-                        No hay estudiantes registrados para generar el reporte.
-                    </td>
-                </tr>
-            `;
-            return;
-        }
-
-        cuerpo.innerHTML = estudiantes.map(est => {
-            const prom = Number(est.promedio) || 0;
-            const esAprobado = prom >= 10;
-            const nombres = [est.nombre, est.seg_nombre].filter(Boolean).join(' ');
-            const apellidos = [est.apellido, est.seg_apellido].filter(Boolean).join(' ');
-            return `
-                <tr>
-                    <td>${est.cedula}</td>
-                    <td>${nombres}</td>
-                    <td>${apellidos}</td>
-                    <td>${est.ano || '-'}</td>
-                    <td>${est.seccion || '-'}</td>
-                    <td>${est.nota1 !== undefined ? est.nota1 : '-'}</td>
-                    <td>${est.nota2 !== undefined ? est.nota2 : '-'}</td>
-                    <td>${est.nota3 !== undefined ? est.nota3 : '-'}</td>
-                    <td>${est.nota4 !== undefined ? est.nota4 : '-'}</td>
-                    <td style="font-weight: bold;">${prom.toFixed(2)}</td>
-                    <td style="font-weight: bold; color: ${esAprobado ? 'green' : 'red'};">${est.estado || (esAprobado ? "Aprobado" : "Reprobado")}</td>
-                </tr>
-            `;
-        }).join('');
-    } catch (err) {
-        console.error('Error al renderizar el reporte:', err);
-    }
-}
 
 async function imprimirTabla() {
     let contenido = document.getElementById('impresion').innerHTML;
@@ -471,7 +332,7 @@ if (document.getElementById('cuerpoTabla2')) {
     renderizarListas();
 }
 
-if (document.getElementById('cuerpoTablaReporte')) {
+if (document.getElementById('cuerpoTablaReporte') && document.getElementById('cuerpoTablaReporte').children.length === 0) {
     renderizarReporte();
 }
 

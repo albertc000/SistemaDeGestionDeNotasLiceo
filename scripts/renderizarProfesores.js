@@ -12,6 +12,11 @@ function editarProfesor(cedula) {
     input.name = 'cedula';
     input.value = cedula;
     form.appendChild(input);
+    const inputFrom = document.createElement('input');
+    inputFrom.type = 'hidden';
+    inputFrom.name = 'from';
+    inputFrom.value = window.location.pathname;
+    form.appendChild(inputFrom);
     document.body.appendChild(form);
     form.submit();
 }
@@ -108,14 +113,15 @@ function renderizarFilas(profesores) {
             <tr>
                 <td style="font-weight: 500;">V-${prof.cedula}</td>
                 <td style="font-weight: 600;">${nombreCompleto}</td>
+                <td><span style="color: #0f766e; font-weight: 600;">${prof.materia || 'Sin asignar'}</span></td>
+                <td>${prof.seccion_asignada || 'Sin asignar'}</td>
                 <td>${prof.telefono || '-'}</td>
-                <td>${prof.direccion || '-'}</td>
                 <td class="cell-actions">
-                    <div class="actions-container" style="display: flex; gap: 0.4rem;">
+                    <div class="actions-container" style="display: flex; justify-content: flex-end; gap: 0.4rem;">
                         <button class="action-button btn-edit" onclick="editarProfesor('${prof.cedula}')" title="Modificar Profesor">
-                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"/>
-                                <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
                             </svg>
                         </button>
                     </div>

@@ -27,7 +27,7 @@
                         clip-rule="evenodd" />
                 </svg>
             </div>
-            <h2>Gestión Escolar</h2>
+            <h2>Liceo "Andres Bello"</h2>
         </a>
 
         <ul class="nav-list">
@@ -55,6 +55,14 @@
                     Profesores
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="/secciones" class="nav-link">
+                    <svg id="icono" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 19V6a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v13M3 19h6m-6 0a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1m0 0V9a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v10M9 19h6m-6 0a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1m0 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v15m-6 0h6m-6 0a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1"/>
+                    </svg>
+                    Secciones
+                </a>
+            </li>
         </ul>
 
         <div class="sidebar-footer">
@@ -72,6 +80,7 @@
         <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
             <div>
                 <h1 style="font-size: 2rem; background-clip: unset; -webkit-background-clip: unset; -webkit-text-fill-color: initial; background: none;">Nómina de Estudiantes y Calificaciones</h1>
+                <p style="color: #64748b; margin-top: 0.5rem;">Estudiantes Inscritos en la Institución</p>
             </div>
         </header>
 
@@ -157,30 +166,13 @@
                                 <th scope="col">Año</th>
                                 <th scope="col">Sección</th>
                                 <th scope="col">Estado</th>
-                                <th scope="col" class="cell-actions">Acciones</th>
+                                <th scope="col" class="cell-actions" style="text-align: right;">Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="cuerpoTabla">
 
                         </tbody>
                     </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="table-container">
-            <div id="modalDetalle" class="modal" style="display:none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center;">
-                <div class="modal-content" style="background: white; padding: 2rem; border-radius: 12px; width: 90%; max-width: 600px; color: black; max-height: 85vh; overflow-y: auto;">
-                    <h3 id="modalTitulo" style="font-size: 1.6rem; color: #1e293b; font-weight: bold; margin-bottom: 0.5rem;">Boletín Informativo de Calificaciones</h3>
-                    <p style="color: #64748b; font-size: 0.95rem;" id="modalSubtitulo">Detalle académico del alumno</p>
-                    <hr style="margin: 1rem 0; border: 0; border-top: 1px solid #e2e8f0;">
-
-                    <div id="detalleEstudianteContenido" style="display: flex; flex-direction: column; gap: 1rem;">
-                        <!-- Se llena dinámicamente con renderizarBD.js -->
-                    </div>
-
-                    <br>
-                    <button onclick="cerrarModal()" class="clo-btn" style="width: 100%; padding: 0.75rem; background: #64748b; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Cerrar Boletín</button>
                 </div>
             </div>
         </div>
