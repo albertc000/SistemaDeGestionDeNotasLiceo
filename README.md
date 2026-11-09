@@ -1,7 +1,6 @@
 # Sistema de Gestión de Estudiantes y Notas — Liceo Andrés Bello
 
-Aplicación web para la gestión académica y control de las notas de estudiantes. Permite realizar operaciones CRUD (Crear, Leer, Actualizar y Eliminar), control de notas (evaluaciones 1 a 4), reportes y autenticación mediante JWT.
-
+Aplicación web para la gestión académica y control de las notas de estudiantes. Permite realizar operaciones CRUD (Crear, Leer, Actualizar y Eliminar), control de notas por lapsos (1 a 4) y materias, generación de reportes y boletines, asignación docente y autenticación segura mediante JWT y bcrypt.
 
 ## Integrantes
 **Programación II-VI**
@@ -10,8 +9,9 @@ Aplicación web para la gestión académica y control de las notas de estudiante
 - Carlos Viloria
 - Sandro Montilla
 
+---
 
-## Instrucciones de Instalación
+## Instrucciones de Instalación y Puesta en Marcha
 
 ### 1. Clonar el repositorio
 ```bash
@@ -19,18 +19,56 @@ git clone https://github.com/albertc000/SistemaDeGestionDeNotasLiceo
 cd GestionNotasLiceo
 ```
 
-### 2. Instalar dependencias
+### 2. Instalar dependencias del servidor
 ```bash
 npm install
 ```
 
-### 3. Configurar la Base de Datos en MySQL
-1. Abra su gestor de base de datos MySQL (phpMyAdmin, MySQL Workbench, HeidiSQL, DBeaver o terminal).
-2. Ejecuta el script incluido [`bd.sql`](./bd.sql). Este script creará la base de datos `liceo_andres_bello` y sus tablas correspondientes (`usuarios` y `estudiantes`).
-   * *Alternativa desde la consola de MySQL:*
+### 3. Iniciar la Base de Datos
+
+Tienes varias opciones para iniciar la base de datos, **con o sin tener MySQL instalado en tu computadora**:
+
+#### Opción A: Con Docker (Recomendada — No requiere instalar MySQL ni XAMPP)
+Si tienes [Docker Desktop](https://www.docker.com/products/docker-desktop/) instalado y abierto, no necesitas instalar MySQL en Windows. Puedes levantar únicamente el contenedor de la base de datos con:
+
+```bash
+docker compose up -d db
+```
+> **¿Qué hace este comando automáticamente?**
+> - Descarga la imagen oficial de `mysql:8.0`.
+> - Crea la base de datos `liceo_andres_bello` con usuario `root` y contraseña `admin`.
+> - Ejecuta e importa automáticamente el archivo [`bd.sql`](./bd.sql) la primera vez.
+> - Mapea el puerto `3306`, por lo que tu aplicación local en Node.js se conectará de inmediato a `localhost:3306`.
+> - Mantiene los datos a salvo mediante un volumen persistente de Docker (`mysql_data`).
+
+Para detener el contenedor de la base de datos cuando termines:
+```bash
+docker compose stop db
+```
+
+---
+
+#### Opción B: Todo el Sistema en Docker (Sin MySQL ni Node.js en tu máquina)
+Si prefieres no instalar dependencias en tu equipo y correr tanto la base de datos como la aplicación Express en contenedores:
+
+```bash
+docker compose up --build
+```
+* Ambos servicios iniciarán sincronizados y la aplicación estará disponible inmediatamente en `http://localhost:3000`.
+* Para detener todo: `docker compose down`.
+
+---
+
+#### Opción C: Con MySQL Local Tradicional (XAMPP / MySQL Server / Workbench)
+Si ya cuentas con MySQL instalado localmente:
+1. Abre tu gestor (phpMyAdmin, MySQL Workbench, DBeaver, HeidiSQL o terminal).
+2. Ejecuta el script [`bd.sql`](./bd.sql) para crear la base de datos `liceo_andres_bello` y sus tablas.
+   * *Alternativa desde la consola de comandos:*
      ```bash
      mysql -u root -p < bd.sql
      ```
+
+---
 
 ### 4. Configurar las Variables de Entorno
 Crea un archivo llamado `.env` en la raíz del proyecto basándote en la plantilla `.env.example`:
@@ -41,68 +79,43 @@ JWT_SECRET=claveJwtAqui
 DB_HOST=localhost
 DB_PORT=3306
 DB_USER=root
-DB_PASSWORD=ContrasenaSQLAqui
+DB_PASSWORD=admin
 DB_NAME=liceo_andres_bello
 ```
-> **Nota:** Ajusta `DB_USER` y `DB_PASSWORD` según tu configuración local de MySQL.
+> **Nota:** Si usaste **Docker (Opción A)**, las credenciales por defecto son usuario `root` y contraseña `admin`. Si usaste MySQL local (Opción C), ajusta `DB_USER` y `DB_PASSWORD` según tu configuración.
 
-### 5. Iniciar el Servidor
+---
+
+### 5. Iniciar la Aplicación en Local
+Si levantaste la base de datos con la **Opción A** o la **Opción C**, arranca el servidor Node.js:
+
 ```bash
 npm start
 ```
-O bien:
+O en modo desarrollo con recarga automática:
 ```bash
-node server.js
+node --watch server.js
 ```
 
-La aplicación estará accesible en: `http://localhost:3000`
+La aplicación estará accesible en: **`http://localhost:3000`**
 
 ---
 
-## ¿Cómo ejecutar en otra computadora sin MySQL instalado?
+## Credenciales de Acceso por Defecto
 
-El proyecto está diseñado para funcionar en cualquier otra máquina **sin necesidad de instalar ni configurar MySQL Server localmente**, a través de las siguientes alternativas:
+Al arrancar el servidor por primera vez, el sistema sincroniza automáticamente el usuario administrador inicial:
 
-### Opción A: Levantar Todo con Docker (Recomendado — No requiere MySQL ni Node.js)
-Si la otra computadora tiene [Docker Desktop](https://www.docker.com/products/docker-desktop/) instalado:
-1. Abre una terminal en la carpeta del proyecto.
-2. Ejecuta un único comando:
-   ```bash
-   docker compose up --build
-   ```
-> **¿Qué hace automáticamente?**
-> - Descarga e inicia un contenedor MySQL 8.0 con la base de datos `liceo_andres_bello` y ejecuta [bd.sql](./bd.sql) automáticamente.
-> - Espera mediante un *healthcheck* a que MySQL esté listo para recibir conexiones.
-> - Construye el contenedor de Node.js, instala dependencias y corre la aplicación.
-> - Inicializa automáticamente grados, secciones, materias y el usuario administrador `admin`.
-> - **Acceso:** Abre tu navegador en **`http://localhost:3000`**.
-
-Para detener el sistema:
-```bash
-docker compose down
-```
+- **Usuario:** `admin`
+- **Contraseña:** `admin`
 
 ---
 
-### Opción B: Base de Datos en Docker + Node.js en Local
-Si en esa computadora se cuenta con Node.js pero no se desea instalar el servicio de MySQL en Windows/Linux:
-```bash
-# 1. Levanta únicamente el contenedor de MySQL en segundo plano
-docker compose up -d db
+## Ejecución en Computadoras sin Docker ni MySQL (Base de Datos Cloud)
 
-# 2. Inicia la aplicación Node normalmente
-npm install
-npm start
-```
-> La base de datos se expone en `localhost:3306` (usuario `root`, contraseña `admin`), y la aplicación Node se conectará automáticamente con los valores predeterminados.
-
----
-
-### Opción C: Computadora sin MySQL y sin Docker (Base de Datos en la Nube)
-Si la computadora no dispone de virtualización ni Docker:
+Si necesitas desplegar o correr la aplicación en una computadora donde no puedas instalar Docker ni MySQL:
 1. Crea una base de datos MySQL gratuita en un proveedor cloud (como [Aiven](https://aiven.io/), [Railway](https://railway.app/), [Clever Cloud](https://www.clever-cloud.com/) o [Render](https://render.com/)).
 2. Importa el script [`bd.sql`](./bd.sql) en el gestor del servicio cloud.
-3. En la computadora donde corre la aplicación, crea el archivo `.env` apuntando a las credenciales remotas:
+3. En el archivo `.env`, apunta a las credenciales remotas:
    ```env
    PORT=3000
    JWT_SECRET=tu_clave_secreta
@@ -116,19 +129,6 @@ Si la computadora no dispone de virtualización ni Docker:
 
 ---
 
-## Credenciales de Acceso por Defecto
+## Descripción del Proyecto
 
-Al arrancar el servidor por primera vez, el sistema sincroniza automáticamente el usuario administrador inicial:
-
-- **Usuario:** `admin`
-- **Contraseña:** `admin`
-
-## Descripción del Proyecto Completo
-
-<<<<<<< HEAD
-Nuestro Proyecto consistiría en una Aplicación Web para el Registro y Control de Notas del Liceo "Andrés Bello", permitiendo entrar tanto a personal Administrativo para asignación de estudiantes y profesores, así como dictar inicios y finales de lapsos; personal Docente que subirá las notas correspondientes a sus materias y estudiantes al sistema; y al Departamento de Control de Estudio quien podrá hacer seguimiento de dichas notas, así como generar reportes y boletines respectivamente.
-=======
-Nuestro Proyecto consistiría en una Aplicación Web para el Registro y Control de Notas del Liceo "Andrés Bello", permitiendo entrar tanto a personal Administrativo para asignación de estudiantes y profesores, así como dictar inicios y finales de lapsos; personal Docente que subirá las notas correspondientes a sus materias y estudiantes al sistema; y al Departamento de Control de Estudio quien podrá hacer seguimiento de dichas notas, así como generar reportes y boletines respectivamente.
-
-
->>>>>>> 4fc14cdbdb9d94f44c1be1cac53b05c932f6d332
+Aplicación Web para el Registro y Control de Notas del Liceo "Andrés Bello", permitiendo entrar tanto a personal Administrativo para asignación de estudiantes y profesores, así como dictar inicios y finales de lapsos; personal Docente que subirá las notas correspondientes a sus materias y estudiantes al sistema; y al Departamento de Control de Estudio quien podrá hacer seguimiento de dichas notas, así como generar reportes y boletines de calificaciones.
